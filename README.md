@@ -1,4 +1,4 @@
-# Agent Learning 
+# LLM Agents
 
 ## Up and Running 
 1. poetry install

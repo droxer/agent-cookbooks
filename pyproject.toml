@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "agent-learning"
+name = "llm-agents"
 version = "0.1.0"
 description = ""
 authors = ["He Fei <droxer.he@gmail.com>"]
