@@ -1,7 +1,7 @@
 from crewai import Crew
 
-from cookbook.product.agents import *
-from cookbook.product.tasks import *
+from rhq.agents import *
+from rhq.tasks import *
 
 
 builder = input('# Could you please provide a detailed description of your requirements ?\n\n')

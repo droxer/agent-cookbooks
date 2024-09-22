@@ -1,9 +1,8 @@
 
-import os
 from textwrap import dedent
 from crewai import Agent
 
-from cookbook.llms import llm
+from rhq.llms import llm
 
 
 def product_manager():
