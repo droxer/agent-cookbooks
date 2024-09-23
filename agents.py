@@ -2,9 +2,8 @@
 from textwrap import dedent
 from crewai import Agent
 
-from rhq.llms import llm_coder,llm_instruction
-from rhq.callbacks import langfuse_callback_handler
-
+llm='ollama/qwen2.5:7b'
+llm_coder='ollama/qwen2.5-coder:7b'
 
 def product_manager():
 	return Agent(
@@ -15,8 +14,7 @@ def product_manager():
 		backstory=dedent(''',
 			You're responsible for creating a comprehensive Product Requirement Document.。
 			'''),
-		llm= llm_instruction,
-		callbacks=[langfuse_callback_handler],
+		llm= llm,
 		allow_delegation=False,
 		verbose=True
 	)
@@ -29,7 +27,6 @@ def sr_engineer():
 			Your goal is implement the product requirements in high quality code.
 			'''),
         llm= llm_coder,
-		callbacks=[langfuse_callback_handler],
 		allow_delegation=False,
 		verbose=True
 	)
@@ -41,7 +38,6 @@ def sr_qa():
 		backstory='''You are a QA engineer,
 			Your goal is make sure the product meets the product requirements.''',
 		llm= llm_coder,
-		callbacks=[langfuse_callback_handler],
 		allow_delegation=True,
 		verbose=True
 	)

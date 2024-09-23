@@ -1,7 +1,7 @@
 from crewai import Crew
 
-from rhq.agents import *
-from rhq.tasks import *
+from agents import *
+from tasks import *
 
 
 builder = input('# Could you please provide a detailed description of your requirements ?\n\n')
@@ -30,3 +30,8 @@ crew = Crew(
 )
 
 outputs = crew.kickoff()
+
+print("\n\n########################")
+print("## Here is the final outputs")
+print("########################\n")
+print(outputs)
