@@ -8,8 +8,8 @@ builder = input('# Could you please provide a detailed description of your requi
 
 
 pm =  product_manager()
-engineer = senior_engineer()
-qa = qa_engineer()
+engineer = sr_engineer()
+qa = sr_qa()
 
 prd = analysis_task(pm, builder)
 code = develop_task(engineer, builder)

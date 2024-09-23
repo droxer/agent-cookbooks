@@ -14,6 +14,7 @@ def analysis_task(agent, requirements):
 
 def develop_task(agent, requirements):
 	return Task(description=dedent(f'''Carefull read the product requirements document,
+		
 		User Requirements
 		------------
 		{requirements}
@@ -22,7 +23,7 @@ def develop_task(agent, requirements):
 		1. The frontend is required to be developed in React
 		2. The backend is required to be developed in Python
 		'''),
-		expected_output='The output is implemented code both frontend and backend',
+		expected_output='The output is implemented code both frontend and backend and build scripts',
 		agent=agent
 	)
 
@@ -33,7 +34,7 @@ def test_task(agent, requirements):
 		------------
 		{requirements}
 
-		test the implemented code and functionality
+		test the implemented functionality
 		'''),
 		expected_output='The output is fully tested code and functionality',
 		agent=agent
