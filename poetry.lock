@@ -3056,8 +3056,8 @@ langchain-core = ">=0.2.38,<0.3.0"
 langchain-text-splitters = ">=0.2.0,<0.3.0"
 langsmith = ">=0.1.17,<0.2.0"
 numpy = [
-    {version = ">=1,<2", markers = "python_version < \"3.12\""},
     {version = ">=1.26.0,<2.0.0", markers = "python_version >= \"3.12\""},
+    {version = ">=1,<2", markers = "python_version < \"3.12\""},
 ]
 pydantic = ">=1,<3"
 PyYAML = ">=5.3"
@@ -3114,8 +3114,8 @@ langchain = ">=0.2.16,<0.3.0"
 langchain-core = ">=0.2.39,<0.3.0"
 langsmith = ">=0.1.112,<0.2.0"
 numpy = [
-    {version = ">=1,<2", markers = "python_version < \"3.12\""},
     {version = ">=1.26.0,<2.0.0", markers = "python_version >= \"3.12\""},
+    {version = ">=1,<2", markers = "python_version < \"3.12\""},
 ]
 PyYAML = ">=5.3"
 requests = ">=2,<3"
@@ -3143,8 +3143,8 @@ jsonpatch = ">=1.33,<2.0"
 langsmith = ">=0.1.112,<0.2.0"
 packaging = ">=23.2,<25"
 pydantic = [
-    {version = ">=1,<3", markers = "python_full_version < \"3.12.4\""},
     {version = ">=2.7.4,<3.0.0", markers = "python_full_version >= \"3.12.4\""},
+    {version = ">=1,<3", markers = "python_full_version < \"3.12.4\""},
 ]
 PyYAML = ">=5.3"
 tenacity = ">=8.1.0,<8.4.0 || >8.4.0,<9.0.0"
@@ -3216,6 +3216,36 @@ url = "https://mirrors.aliyun.com/pypi/simple"
 reference = "aliyun"
 
 [[package]]
+name = "langfuse"
+version = "2.50.2"
+description = "A client library for accessing langfuse"
+optional = false
+python-versions = ">=3.8.1,<4.0"
+files = [
+    {file = "langfuse-2.50.2-py3-none-any.whl", hash = "sha256:27ab9a3d88adf781f3b2f780da7e2de5b57114defa52d55e7c12f44bb89d414d"},
+    {file = "langfuse-2.50.2.tar.gz", hash = "sha256:d2e3584116773612e19eef244bc70bb8024b9490736cc57873bba30b207714f1"},
+]
+
+[package.dependencies]
+anyio = ">=4.4.0,<5.0.0"
+backoff = ">=1.10.0"
+httpx = ">=0.15.4,<1.0"
+idna = ">=3.7,<4.0"
+packaging = ">=23.2,<25.0"
+pydantic = ">=1.10.7,<3.0"
+wrapt = ">=1.14,<2.0"
+
+[package.extras]
+langchain = ["langchain (>=0.0.309)"]
+llama-index = ["llama-index (>=0.10.12,<2.0.0)"]
+openai = ["openai (>=0.27.8)"]
+
+[package.source]
+type = "legacy"
+url = "https://mirrors.aliyun.com/pypi/simple"
+reference = "aliyun"
+
+[[package]]
 name = "langsmith"
 version = "0.1.125"
 description = "Client library to connect to the LangSmith LLM Tracing and Evaluation Platform."
@@ -3230,8 +3260,8 @@ files = [
 httpx = ">=0.23.0,<1"
 orjson = ">=3.9.14,<4.0.0"
 pydantic = [
-    {version = ">=1,<3", markers = "python_full_version < \"3.12.4\""},
     {version = ">=2.7.4,<3.0.0", markers = "python_full_version >= \"3.12.4\""},
+    {version = ">=1,<3", markers = "python_full_version < \"3.12.4\""},
 ]
 requests = ">=2,<3"
 
@@ -4415,9 +4445,9 @@ files = [
 
 [package.dependencies]
 numpy = [
-    {version = ">=1.23.2", markers = "python_version == \"3.11\""},
-    {version = ">=1.22.4", markers = "python_version < \"3.11\""},
     {version = ">=1.26.0", markers = "python_version >= \"3.12\""},
+    {version = ">=1.22.4", markers = "python_version < \"3.11\""},
+    {version = ">=1.23.2", markers = "python_version == \"3.11\""},
 ]
 python-dateutil = ">=2.8.2"
 pytz = ">=2020.1"
@@ -4933,8 +4963,8 @@ files = [
 annotated-types = ">=0.6.0"
 pydantic-core = "2.23.4"
 typing-extensions = [
-    {version = ">=4.6.1", markers = "python_version < \"3.13\""},
     {version = ">=4.12.2", markers = "python_version >= \"3.13\""},
+    {version = ">=4.6.1", markers = "python_version < \"3.13\""},
 ]
 
 [package.extras]
@@ -5046,6 +5076,21 @@ files = [
 
 [package.dependencies]
 typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
+
+[package.source]
+type = "legacy"
+url = "https://mirrors.aliyun.com/pypi/simple"
+reference = "aliyun"
+
+[[package]]
+name = "pydotenv"
+version = "0.0.7"
+description = "A libray to write .env files"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pydotenv-0.0.7.tar.gz", hash = "sha256:5f6d78d3a7ed5124d7836bc1beeadd855dab4e2fdbea9338e6ff61dc1e46829f"},
+]
 
 [package.source]
 type = "legacy"
@@ -5477,8 +5522,8 @@ grpcio = ">=1.41.0"
 grpcio-tools = ">=1.41.0"
 httpx = {version = ">=0.20.0", extras = ["http2"]}
 numpy = [
-    {version = ">=1.21", markers = "python_version >= \"3.8\" and python_version < \"3.12\""},
     {version = ">=1.26", markers = "python_version >= \"3.12\""},
+    {version = ">=1.21", markers = "python_version >= \"3.8\" and python_version < \"3.12\""},
 ]
 portalocker = ">=2.7.0,<3.0.0"
 pydantic = ">=1.10.8"
@@ -7513,4 +7558,4 @@ reference = "aliyun"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<=3.13"
-content-hash = "a80a066d4736142ef169a94f714a45c0d3c5f9ea1a7cfc18a7e0248f101812ce"
+content-hash = "c191dd5e1b796141e675d0914177ec5bf432ffef3903ecbbc9551bf2b0235356"
