@@ -4,16 +4,15 @@ from agents import *
 from tasks import *
 
 
-builder = input('# Could you please provide a detailed description of your requirements ?\n\n')
-
+requirements = input('#Could you please provide a detailed description of your requirements ?\n')
 
 pm =  product_manager()
 engineer = sr_engineer()
 qa = sr_qa()
 
-prd = analysis_task(pm, builder)
-code = develop_task(engineer, builder)
-app = test_task(qa, builder)
+prd = analysis_task(pm, requirements)
+code = develop_task(engineer, requirements)
+tests = test_task(qa, requirements)
 
 crew = Crew(
 	agents=[
@@ -24,9 +23,9 @@ crew = Crew(
 	tasks=[
 		prd,
 		code,
-		app
+		tests
 	],
-	verbose=True
+	verbose=False
 )
 
 outputs = crew.kickoff()

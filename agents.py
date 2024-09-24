@@ -2,7 +2,7 @@
 from textwrap import dedent
 from crewai import Agent
 
-llm='ollama/qwen2.5:7b'
+llm='ollama/phi3.5:3.8b'
 llm_coder='ollama/qwen2.5-coder:7b'
 
 def product_manager():
