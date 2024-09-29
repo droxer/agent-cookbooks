@@ -4,39 +4,34 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-llm='ollama/phi3.5:3.8b'
+llm='ollama/llama3.2'
 
-from crewai import Agent, Task, Crew
+from crewai import Agent, Task, Crew, Process
 from crewai_tools import SerperDevTool
 
-research_agent = Agent(
-  role='Researcher',
-  goal='Find and summarize the latest AI news',
-  backstory="""You're a researcher at a large company.
-  You're responsible for analyzing data and providing insights
-  to the business.""",
+reseacher = Agent(
+  role='Senior Researcher',
+  goal='Uncover groundbreaking technologies and trends in AI',
+  backstory="""Driven by curiosity,
+  You exlore and sharee the latest innovations.
+  """,
   llm=llm,
-  verbose=False
 )
 
 search_tool = SerperDevTool()
 
-task = Task(
-  description='Find and summarize the latest AI news',
-  expected_output='A bullet list summary of the top 5 most important AI news',
-  agent=research_agent,
+reseacher_task = Task(
+  description='Identity the next big trend in AI with pros and cons',
+  expected_output='A bullet list summary of the top 5 most important AI news and references links',
+  agent=reseacher,
   tools=[search_tool]
 )
 
 crew = Crew(
-    agents=[research_agent],
-    tasks=[task],
-    verbose=True
+    agents=[reseacher],
+    tasks=[reseacher_task],
+    process=Process.sequential,
 )
 
-result = crew.kickoff()
-
-print("\n\n########################")
-print("## Here is the final outputs")
-print("########################\n")
+result = crew.kickoff(inputs= {"topic": "AI in Higner Education"})
 print(result)
