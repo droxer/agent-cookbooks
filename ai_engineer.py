@@ -1,7 +1,3 @@
-from agents import *
-from tasks import *
-
-
 from textwrap import dedent
 from crewai import Crew, Task, Agent
 
