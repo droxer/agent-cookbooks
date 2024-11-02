@@ -1,10 +1,14 @@
 import os
 
 from dotenv import load_dotenv
+from crewai import LLM, Agent, Task, Crew, Process
+from crewai_tools import SerperDevTool
 
 load_dotenv()
 
-llm='ollama/llama3.2'
+# llm='ollama/llama3.2'
+llm = LLM(model="gpt-4o", temperature=0.7)
+
 
 from crewai import Agent, Task, Crew, Process
 from crewai_tools import SerperDevTool

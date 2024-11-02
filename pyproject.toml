@@ -6,10 +6,12 @@ authors = ["He Fei <droxer.he@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.10,<=3.13"
-crewai = {extras = ["tools"], version = "^0.61.0"}
+python = ">=3.10,<3.13"
+crewai = {extras = ["tools"], version = "^0.76.9"}
 langfuse = "^2.50.2"
 pydotenv = "^0.0.7"
+autogen-agentchat = "^0.2.37"
+flaml = {extras = ["automl"], version = "^2.3.2"}
 
 [[tool.poetry.source]]
 name = "aliyun"
