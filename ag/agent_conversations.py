@@ -1,6 +1,5 @@
-import os
-
 from autogen import ConversableAgent, config_list_from_json
+
 config_list = config_list_from_json(env_or_file="OAI_CONFIG_LIST")
 
 cathy = ConversableAgent(
@@ -17,4 +16,4 @@ joe = ConversableAgent(
     human_input_mode="NEVER",  # Never ask for human input.
 )
 
-result = joe.initiate_chat(cathy, message="Cathy, tell me a joke.", max_turns=2)
+result = joe.initiate_chat(cathy, message="Cathy, tell me a joke.", max_turns=5)

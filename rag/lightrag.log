@@ -1,0 +1,10 @@
+2024-12-25 00:05:00,277 - lightrag - INFO - Logger initialized for working directory: ./dickens
+2024-12-25 00:05:00,278 - lightrag - INFO - Load KV llm_response_cache with 4 data
+2024-12-25 00:05:00,279 - lightrag - INFO - Load KV full_docs with 1 data
+2024-12-25 00:05:00,279 - lightrag - INFO - Load KV text_chunks with 42 data
+2024-12-25 00:05:00,348 - lightrag - INFO - Loaded graph from ./dickens/graph_chunk_entity_relation.graphml with 395 nodes, 268 edges
+2024-12-25 00:19:10,611 - lightrag - INFO - Logger initialized for working directory: ./store
+2024-12-25 00:19:10,612 - lightrag - INFO - Load KV llm_response_cache with 4 data
+2024-12-25 00:19:10,613 - lightrag - INFO - Load KV full_docs with 1 data
+2024-12-25 00:19:10,614 - lightrag - INFO - Load KV text_chunks with 42 data
+2024-12-25 00:19:10,681 - lightrag - INFO - Loaded graph from ./store/graph_chunk_entity_relation.graphml with 395 nodes, 268 edges
