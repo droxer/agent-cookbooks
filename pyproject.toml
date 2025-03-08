@@ -10,12 +10,10 @@ dependencies = [
     "crewai[tools]==0.76.9",
     "langfuse==2.50.2",
     "pydotenv==0.0.7",
-    "autogen-agentchat==0.2.37",
     "flaml[automl]==2.3.2",
     "lightrag-hku==1.0.6",
     "aioboto3==13.2.0",
-    "ollama==0.4.4",
     "torch==2.5.1",
     "transformers==4.47.1",
-    "nano-vectordb==0.0.4.3"
+    "nano-vectordb==0.0.4.3",
 ] 

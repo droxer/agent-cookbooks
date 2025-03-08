@@ -16,7 +16,7 @@ llm_coder = LLM(
 )
 
 llm = LLM(
-    model="qwen-max",
+    model="qwen-max-0125",
     base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
     api_key=os.getenv('DASHSCOPE_API_KEY'),
 )

@@ -14,13 +14,11 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "aioboto3" },
-    { name = "autogen-agentchat" },
     { name = "crewai", extra = ["tools"] },
     { name = "flaml", extra = ["automl"] },
     { name = "langfuse" },
     { name = "lightrag-hku" },
     { name = "nano-vectordb" },
-    { name = "ollama" },
     { name = "pydotenv" },
     { name = "torch" },
     { name = "transformers" },
@@ -29,13 +27,11 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "aioboto3", specifier = "==13.2.0" },
-    { name = "autogen-agentchat", specifier = "==0.2.37" },
     { name = "crewai", extras = ["tools"], specifier = "==0.76.9" },
     { name = "flaml", extras = ["automl"], specifier = "==2.3.2" },
     { name = "langfuse", specifier = "==2.50.2" },
     { name = "lightrag-hku", specifier = "==1.0.6" },
     { name = "nano-vectordb", specifier = "==0.0.4.3" },
-    { name = "ollama", specifier = "==0.4.4" },
     { name = "pydotenv", specifier = "==0.0.7" },
     { name = "torch", specifier = "==2.5.1" },
     { name = "transformers", specifier = "==4.47.1" },
@@ -279,27 +275,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/27/ca/c5d5aef3599d143b3fa5203be850542ee54e3798392fb80bd3126fd865e2/auth0_python-4.8.1.tar.gz", hash = "sha256:2d46027296a5e6d7c28f2ef1cc3d9b5705f3978de3622a744dabf36b39d53342", size = 74876 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/27/70/0025c8f763ece48b9dbffe22b68f843f1cd43a6324ee9f95e94a1d3e4d6c/auth0_python-4.8.1-py3-none-any.whl", hash = "sha256:ac2fea3cba4dc186b2f01a953a08db5f38a543255c19e9298fef4755fe5f9716", size = 134260 },
-]
-
-[[package]]
-name = "autogen-agentchat"
-version = "0.2.37"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "diskcache" },
-    { name = "docker" },
-    { name = "flaml" },
-    { name = "numpy" },
-    { name = "openai" },
-    { name = "packaging" },
-    { name = "pydantic" },
-    { name = "python-dotenv" },
-    { name = "termcolor" },
-    { name = "tiktoken" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/0a/41/d16c1eb328e075947818937f12aa0318056c64780b613d9ca63a32d0f15c/autogen-agentchat-0.2.37.tar.gz", hash = "sha256:c6a674b33075aa3a5ac684e45d4895e7de96e865a3f87846d690fe90b885c3b9", size = 334876 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/81/a2/7c36eba37f564cc5ba58e47eae8be4ff1eeccfbb8745c65742bc91b97944/autogen_agentchat-0.2.37-py3-none-any.whl", hash = "sha256:acba4978ad61f40ac5335942de4b40d4b5074b6831ac717db6fea2b1744be182", size = 381994 },
 ]
 
 [[package]]
@@ -791,15 +766,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/5a/d3/8ae2869247df154b64c1884d7346d412fed0c49df84db635aab2d1c40e62/deprecation-2.1.0.tar.gz", hash = "sha256:72b3bde64e5d778694b0cf68178aed03d15e15477116add3fb773e581f9518ff", size = 173788 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/02/c3/253a89ee03fc9b9682f1541728eb66db7db22148cd94f89ab22528cd1e1b/deprecation-2.1.0-py2.py3-none-any.whl", hash = "sha256:a10811591210e1fb0e768a8c25517cabeabcba6f0bf96564f8ff45189f90b14a", size = 11178 },
-]
-
-[[package]]
-name = "diskcache"
-version = "5.6.3"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/3f/21/1c1ffc1a039ddcc459db43cc108658f32c57d271d7289a2794e401d0fdb6/diskcache-5.6.3.tar.gz", hash = "sha256:2c3a3fa2743d8535d832ec61c2054a1641f41775aa7c556758a109941e33e4fc", size = 67916 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/3f/27/4570e78fc0bf5ea0ca45eb1de3818a23787af9b390c0b0a0033a1b8236f9/diskcache-5.6.3-py3-none-any.whl", hash = "sha256:5e31b2d5fbad117cc363ebaf6b689474db18a1f6438bc82358b024abd4c2ca19", size = 45550 },
 ]
 
 [[package]]
@@ -2476,19 +2442,6 @@ wheels = [
 ]
 
 [[package]]
-name = "ollama"
-version = "0.4.4"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "httpx" },
-    { name = "pydantic" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/d8/55/af1d77457cbd4b0de93a6a0c4367de327c057ecfdd4efd19a428516b56d4/ollama-0.4.4.tar.gz", hash = "sha256:e1db064273c739babc2dde9ea84029c4a43415354741b6c50939ddd3dd0f7ffb", size = 13065 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/d3/01/815774a30d0047d464add27e2824a5b1d02ea4ad021c83590cd753e5f511/ollama-0.4.4-py3-none-any.whl", hash = "sha256:0f466e845e2205a1cbf5a2fef4640027b90beaa3b06c574426d8b6b17fd6e139", size = 13155 },
-]
-
-[[package]]
 name = "onnxruntime"
 version = "1.21.0"
 source = { registry = "https://pypi.org/simple" }
@@ -3907,15 +3860,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/cd/94/91fccdb4b8110642462e653d5dcb27e7b674742ad68efd146367da7bdb10/tenacity-9.0.0.tar.gz", hash = "sha256:807f37ca97d62aa361264d497b0e31e92b8027044942bfa756160d908320d73b", size = 47421 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b6/cb/b86984bed139586d01532a587464b5805f12e397594f19f931c4c2fbfa61/tenacity-9.0.0-py3-none-any.whl", hash = "sha256:93de0c98785b27fcf659856aa9f54bfbd399e29969b0621bc7f762bd441b4539", size = 28169 },
-]
-
-[[package]]
-name = "termcolor"
-version = "2.5.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/37/72/88311445fd44c455c7d553e61f95412cf89054308a1aa2434ab835075fc5/termcolor-2.5.0.tar.gz", hash = "sha256:998d8d27da6d48442e8e1f016119076b690d962507531df4890fcd2db2ef8a6f", size = 13057 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/7f/be/df630c387a0a054815d60be6a97eb4e8f17385d5d6fe660e1c02750062b4/termcolor-2.5.0-py3-none-any.whl", hash = "sha256:37b17b5fc1e604945c2642c872a3764b5d547a48009871aea3edd3afa180afb8", size = 7755 },
 ]
 
 [[package]]
