@@ -1,29 +1,21 @@
-[tool.poetry]
-name = "llm-agents"
+[project]
+name = "agent-cookbook"
 version = "0.1.0"
 description = ""
-authors = ["He Fei <droxer.he@gmail.com>"]
-readme = "README.md"
-
-[tool.poetry.dependencies]
-python = ">=3.10,<3.13"
-crewai = {extras = ["tools"], version = "^0.76.9"}
-langfuse = "^2.50.2"
-pydotenv = "^0.0.7"
-autogen-agentchat = "^0.2.37"
-flaml = {extras = ["automl"], version = "^2.3.2"}
-lightrag-hku = "^1.0.6"
-aioboto3 = "^13.2.0"
-ollama = "^0.4.4"
-torch = "^2.5.1"
-transformers = "^4.47.1"
-nano-vectordb = "^0.0.4.3"
-
-[[tool.poetry.source]]
-name = "aliyun"
-url = "https://mirrors.aliyun.com/pypi/simple"
-priority = "primary"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+authors = [
+    { name = "He Fei", email = "droxer.he@gmail.com" }
+]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "crewai[tools]==0.76.9",
+    "langfuse==2.50.2",
+    "pydotenv==0.0.7",
+    "autogen-agentchat==0.2.37",
+    "flaml[automl]==2.3.2",
+    "lightrag-hku==1.0.6",
+    "aioboto3==13.2.0",
+    "ollama==0.4.4",
+    "torch==2.5.1",
+    "transformers==4.47.1",
+    "nano-vectordb==0.0.4.3"
+] 
