@@ -5,7 +5,7 @@ description = ""
 authors = [
     { name = "He Fei", email = "droxer.he@gmail.com" }
 ]
-requires-python = ">=3.10,<3.13"
+requires-python = ">=3.11,<3.13"
 dependencies = [
     "crewai[tools]==0.76.9",
     "langfuse==2.50.2",
@@ -16,4 +16,7 @@ dependencies = [
     "torch==2.5.1",
     "transformers==4.47.1",
     "nano-vectordb==0.0.4.3",
+    "ollama>=0.4.7",
+    "deepsearcher>=0.0.1rc2",
+    "icecream>=2.1.4",
 ] 
