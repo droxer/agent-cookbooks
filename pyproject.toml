@@ -19,4 +19,5 @@ dependencies = [
     "ollama>=0.4.7",
     "deepsearcher>=0.0.1rc2",
     "icecream>=2.1.4",
+    "numexpr>=2.10.2",
 ] 
