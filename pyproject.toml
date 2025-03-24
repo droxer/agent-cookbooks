@@ -20,4 +20,10 @@ dependencies = [
     "deepsearcher>=0.0.1rc2",
     "icecream>=2.1.4",
     "numexpr>=2.10.2",
+    "langchain[openai]>=0.3.21,<0.4.0",
+    "langchain-postgres>=0.0.13",
+    "langchain-openai>=0.2.14",
+    "langchain-unstructured>=0.1.6",
+    "unstructured>=0.17.2",
+    "langgraph>=0.3.18",
 ] 
