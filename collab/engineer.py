@@ -6,9 +6,6 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-# llm='ollama/qwen2.5:7b'
-# llm_coder='ollama/qwen2.5-coder:7b'
-
 llm_coder = LLM(
     model="qwen-coder-turbo",
     base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
