@@ -1,29 +1,13 @@
 [project]
 name = "agent-cookbook"
 version = "0.1.0"
-description = ""
-authors = [
-    { name = "He Fei", email = "droxer.he@gmail.com" }
-]
-requires-python = ">=3.11,<3.13"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11.10"
 dependencies = [
-    "crewai[tools]==0.76.9",
-    "langfuse==2.50.2",
-    "pydotenv==0.0.7",
-    "flaml[automl]==2.3.2",
-    "lightrag-hku==1.0.6",
-    "aioboto3==13.2.0",
-    "torch==2.5.1",
-    "transformers==4.47.1",
-    "nano-vectordb==0.0.4.3",
-    "ollama>=0.4.7",
-    "deepsearcher>=0.0.1rc2",
-    "icecream>=2.1.4",
-    "numexpr>=2.10.2",
-    "langchain[openai]>=0.3.21,<0.4.0",
-    "langchain-postgres>=0.0.13",
-    "langchain-openai>=0.2.14",
-    "langchain-unstructured>=0.1.6",
-    "unstructured>=0.17.2",
-    "langgraph>=0.3.18",
-] 
+    "crewai>=0.102.0",
+    "dotenv>=0.9.9",
+    "langchain-community>=0.3.10",
+    "langchain-postgres>=0.0.14",
+    "langgraph>=0.3.28",
+]
