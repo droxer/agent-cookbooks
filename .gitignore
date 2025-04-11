@@ -11,3 +11,4 @@ lightrag.log
 
 store/*.json
 store/*.graphml
+tmp

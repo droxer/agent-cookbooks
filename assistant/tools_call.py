@@ -6,12 +6,8 @@ from icecream import ic
 
 load_dotenv()
 
-# set openai api key
-openai.api_key = os.environ["OPENAI_API_KEY"]
-
-
 def get_completion(
-    messages, model="gpt-3.5-turbo", temperature=0, max_tokens=300, tools=None
+    messages, model="gpt-4o-mini", temperature=0, max_tokens=300, tools=None
 ):
     response = openai.chat.completions.create(
         model=model,

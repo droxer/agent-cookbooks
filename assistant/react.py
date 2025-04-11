@@ -9,8 +9,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
-os.environ["SERPER_API_KEY"] = os.getenv("SERPER_API_KEY")
+# os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+# os.environ["SERPER_API_KEY"] = os.getenv("SERPER_API_KEY")
 
 llm = ChatOpenAI(model_name="gpt-4o-mini", temperature=0)
 tools = load_tools(["google-serper", "llm-math"], llm=llm)

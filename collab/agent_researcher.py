@@ -5,7 +5,7 @@ from crewai_tools import SerperDevTool
 
 load_dotenv()
 
-llm = LLM(model="gpt-4o", temperature=0.7)
+llm = LLM(model="gpt-4o-mini", temperature=0.7)
 
 reseacher = Agent(
     role="Senior Researcher",
