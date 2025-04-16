@@ -35,6 +35,7 @@ agent = Agent(
     ],
     knowledge=knowledge_base,
     tools=tools,
+    add_history_to_messages=True,
     show_tool_calls=True,
     markdown=True
 )
@@ -42,3 +43,4 @@ agent = Agent(
 if __name__ == "__main__":
     agent.print_response("How do I make chicken and galangal in coconut milk soup", stream=True)
     agent.print_response("What is the my tory of Thai curry?", stream=True)
+    agent.print_response("What is the my previsous questions?", stream=True)
