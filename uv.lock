@@ -14,7 +14,6 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "agno" },
-    { name = "crewai" },
     { name = "crewai-tools" },
     { name = "dotenv" },
     { name = "duckduckgo-search" },
@@ -34,7 +33,6 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "agno", specifier = ">=1.2.16" },
-    { name = "crewai", specifier = ">=0.102.0" },
     { name = "crewai-tools", specifier = ">=0.37.0" },
     { name = "dotenv", specifier = ">=0.9.9" },
     { name = "duckduckgo-search", specifier = ">=8.0.0" },

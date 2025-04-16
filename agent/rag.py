@@ -15,7 +15,7 @@ knowledge_base = PDFUrlKnowledgeBase(
         table_name="recipes",
         uri="tmp/lancedb",
         search_type=SearchType.vector,
-        embedder=OpenAIEmbedder(model="text-embedding-3-small"),
+        embedder=OpenAIEmbedder(),
     ),
 )
 
@@ -41,4 +41,4 @@ agent = Agent(
 
 if __name__ == "__main__":
     agent.print_response("How do I make chicken and galangal in coconut milk soup", stream=True)
-    agent.print_response("What is the history of Thai curry?", stream=True)
+    agent.print_response("What is the my tory of Thai curry?", stream=True)
