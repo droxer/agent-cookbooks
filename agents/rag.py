@@ -2,24 +2,32 @@ from agno.agent import Agent
 from agno.models.openai import OpenAIChat
 from agno.embedder.openai import OpenAIEmbedder
 from agno.tools.duckduckgo import DuckDuckGoTools
-from agno.knowledge.pdf_url import PDFUrlKnowledgeBase
-from agno.vectordb.lancedb import LanceDb, SearchType
+
+from agno.vectordb.pgvector import PgVector, SearchType
 
 from dotenv import load_dotenv
 load_dotenv()
 
-knowledge_base = PDFUrlKnowledgeBase(
-    urls=["https://phi-public.s3.amazonaws.com/recipes/ThaiRecipes.pdf"],
-    # Use LanceDB as the vector database
-    vector_db=LanceDb(
+vector_db=PgVector(
         table_name="recipes",
-        uri="tmp/lancedb",
-        search_type=SearchType.vector,
+        db_url="postgresql+psycopg://tronagent:tronagent@localhost:5432/agent_store",
+        search_type=SearchType.hybrid,
         embedder=OpenAIEmbedder(),
-    ),
+        schema="public",
+    )
+
+# from agno.knowledge.pdf_url import PDFUrlKnowledgeBase
+# knowledge_base = PDFUrlKnowledgeBase(
+#     urls=["https://phi-public.s3.amazonaws.com/recipes/ThaiRecipes.pdf"],
+#     vector_db=vector_db,
+# )
+
+from agno.knowledge.agent import AgentKnowledge
+knowledge_base = AgentKnowledge(
+    vector_db=vector_db,
 )
 
-knowledge_base.load()
+# knowledge_base.load(recreate=True, upsert=True)
 
 tools = [
     DuckDuckGoTools(),
@@ -36,6 +44,7 @@ agent = Agent(
     knowledge=knowledge_base,
     tools=tools,
     add_history_to_messages=True,
+    read_chat_history=True,
     show_tool_calls=True,
     markdown=True
 )
@@ -43,4 +52,4 @@ agent = Agent(
 if __name__ == "__main__":
     agent.print_response("How do I make chicken and galangal in coconut milk soup", stream=True)
     agent.print_response("What is the my tory of Thai curry?", stream=True)
-    agent.print_response("What is the my previsous questions?", stream=True)
+    # agent.print_response("What is the my previsous questions?", stream=True)
