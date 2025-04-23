@@ -11,4 +11,5 @@ lightrag.log
 
 store/*.json
 store/*.graphml
+.vscode/
 tmp
