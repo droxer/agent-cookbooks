@@ -1,4 +1,4 @@
-# Agent Cookbook
+# Agentic Cookbook
 
 ## Setup
 
