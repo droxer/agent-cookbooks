@@ -25,18 +25,18 @@ vector_db=PgVector(
         schema="public",
     )
 
-# from agno.knowledge.pdf_url import PDFUrlKnowledgeBase
-# knowledge_base = PDFUrlKnowledgeBase(
-#     urls=["https://phi-public.s3.amazonaws.com/recipes/ThaiRecipes.pdf"],
-#     vector_db=vector_db,
-# )
-# knowledge_base.load(upsert=True)
-
-
-from agno.knowledge.agent import AgentKnowledge
-knowledge_base = AgentKnowledge(
+from agno.knowledge.pdf_url import PDFUrlKnowledgeBase
+knowledge_base = PDFUrlKnowledgeBase(
+    urls=["https://phi-public.s3.amazonaws.com/recipes/ThaiRecipes.pdf"],
     vector_db=vector_db,
 )
+knowledge_base.load(upsert=True, filters={"category": "food"})
+
+
+# from agno.knowledge.agent import AgentKnowledge
+# knowledge_base = AgentKnowledge(
+#     vector_db=vector_db,
+# )
 
 
 memory=Memory(
