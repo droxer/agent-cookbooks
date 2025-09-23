@@ -13,6 +13,7 @@ dependencies = [
     "guardrails-ai>=0.1.8",
     "httpx>=0.27.2",
     "lancedb>=0.21.2",
+    "langextract>=1.0.9",
     "mcp[cli]>=1.6.0",
     "numexpr>=2.10.2",
     "openai>=1.76.0",
