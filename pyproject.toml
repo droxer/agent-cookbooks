@@ -3,7 +3,7 @@ name = "agentic-cookbook"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.11.10"
+requires-python = ">=3.12"
 dependencies = [
     "deepeval>=3.1.8",
     "dotenv>=0.9.9",
