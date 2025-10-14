@@ -38,7 +38,7 @@ tool_registry = {
 # Uses embeddings to enable similarity-based tool selection
 embeddings = init_embeddings("openai:text-embedding-3-small")
 
-store = InMemoryStore(
+tools_store = InMemoryStore(
     index={
         "embed": embeddings,
         "dims": 1536,  # OpenAI embedding dimensions
@@ -49,7 +49,7 @@ store = InMemoryStore(
 def init_tools():
 # Index all tools in the store for semantic similarity search
     for tool_id, tool in tool_registry.items():
-        store.put(
+        tools_store.put(
             ("tools",),  # Namespace for tool storage
             tool_id,
             {

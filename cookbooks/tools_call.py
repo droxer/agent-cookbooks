@@ -11,7 +11,7 @@ from langgraph.store.base import BaseStore
 from langgraph.graph import END, START, StateGraph, MessagesState
 
 # Jupyter display utilities
-from tools.init_tools import store, tool_registry, init_tools, llm
+from tools.tools_registry import tools_store, tool_registry, init_tools, llm
 from responses import format_messages
 from dotenv import load_dotenv
 load_dotenv()
@@ -137,7 +137,7 @@ agent_builder.add_conditional_edges(
 agent_builder.add_edge("tool_node", "llm_call")
 
 # Compile the agent with tool store for semantic search
-agent = agent_builder.compile(store=store)
+agent = agent_builder.compile(store=tools_store)
 
 
 def main():
