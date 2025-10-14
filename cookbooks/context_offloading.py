@@ -18,15 +18,6 @@ from responses import format_messages
 
 load_dotenv()
 
-def _set_env(var: str) -> None:
-    """Set environment variable if not already set.
-    
-    Args:
-        var: Environment variable name to set
-    """
-    if not os.environ.get(var):
-        os.environ[var] = getpass.getpass(f"{var}: ")
-
 # Extended state class to include scratchpad functionality
 class ScratchpadState(MessagesState):
     """State that extends MessagesState to include a scratchpad field.
@@ -35,9 +26,6 @@ class ScratchpadState(MessagesState):
     allowing information to persist within a single conversation thread.
     """
     scratchpad: str = Field(description="The scratchpad for storing notes")
-
-_set_env("ANTHROPIC_API_KEY")
-_set_env("TAVILY_API_KEY")
 
 # Scratchpad management tools
 @tool
