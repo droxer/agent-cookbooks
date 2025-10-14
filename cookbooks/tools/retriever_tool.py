@@ -1,10 +1,15 @@
+import os
+import sys
 from pprint import pprint
-from langchain_community.document_loaders import WebBaseLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_core.vectorstores import InMemoryVectorStore
-from langchain.embeddings import init_embeddings
-from langchain.tools.retriever import create_retriever_tool
-from dotenv import load_dotenv
+
+# Add project root to path for imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+# Import our new embedding store module
+from store.embedding_store import (
+    StoreType,
+    create_populated_store
+)
 
 from rich.console import Console
 from rich.pretty import pprint
@@ -12,8 +17,8 @@ from rich.pretty import pprint
 # Initialize console for rich formatting
 console = Console()
 
-load_dotenv()
-
+# Configuration
+COLLECTION_NAME = "posts"
 urls = [
     "https://lilianweng.github.io/posts/2025-05-01-thinking/",
     "https://lilianweng.github.io/posts/2024-11-28-reward-hacking/",
@@ -21,25 +26,24 @@ urls = [
     "https://lilianweng.github.io/posts/2024-04-12-diffusion-video/",
 ]
 
-docs = [WebBaseLoader(url).load() for url in urls]
+# Get store type from environment variable (default to PGVector)
+store_type_str = os.getenv("VECTOR_STORE_TYPE", "pgvector").lower()
+store_type = StoreType.PGVECTOR if store_type_str == "pgvector" else StoreType.CHROMA
 
-docs_list = [item for sublist in docs for item in sublist]
+console.print(f"[blue]Using {store_type.value.upper()} store...[/blue]")
 
-text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-    chunk_size=3000, chunk_overlap=50
+# Create and populate the embedding store
+embedding_store = create_populated_store(
+    store_type=store_type,
+    collection_name=COLLECTION_NAME,
+    urls=urls,
+    chunk_size=3000,
+    chunk_overlap=50
 )
-doc_splits = text_splitter.split_documents(docs_list)
-
-embeddings = init_embeddings("openai:text-embedding-3-small")
-vectorstore = InMemoryVectorStore.from_documents(
-    documents=doc_splits, embedding=embeddings
-)
-retriever = vectorstore.as_retriever()
-
-retriever_tool = create_retriever_tool(
-    retriever,
-    "retrieve_blog_posts",
-    "Search and return information about Lilian Weng blog posts.",
+# Create retriever tool using the embedding store
+retriever_tool = embedding_store.create_retriever_tool(
+    name="retrieve_blog_posts",
+    description="Search and return information about Lilian Weng blog posts.",
 )
 
 def main():

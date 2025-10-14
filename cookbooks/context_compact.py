@@ -92,7 +92,7 @@ def tool_node_with_summarization(state: State):
         observation = tool.invoke(tool_call["args"])
         
         # Summarize the tool output to reduce context size
-        summarization_llm = init_chat_model("openai:gpt-4o-mini", temperature=0)
+        summarization_llm = init_chat_model("openai:gpt-4.1-mini", temperature=0)
         condensed_content = summarization_llm.invoke([
             {"role": "system", "content": tool_summarization_prompt},
             {"role": "user", "content": observation}
