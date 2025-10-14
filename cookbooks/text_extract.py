@@ -3,7 +3,6 @@ import textwrap
 import langextract as lx
 
 from dotenv import load_dotenv
-from openai import api_key
 load_dotenv()
 
 prompt = textwrap.dedent("""\

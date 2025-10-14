@@ -37,5 +37,3 @@ uv sync
 ```bash
 uv sync --upgrade
 ```
-
-Note: This project uses the Aliyun PyPI mirror for faster package downloads in China. If you're outside China, you can use the official PyPI repository by default.

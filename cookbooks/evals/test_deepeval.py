@@ -1,4 +1,3 @@
-import pytest
 from deepeval import assert_test
 from deepeval.metrics.answer_relevancy.answer_relevancy import AnswerRelevancyMetric
 from deepeval.metrics.hallucination.hallucination import HallucinationMetric
