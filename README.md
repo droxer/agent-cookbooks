@@ -52,6 +52,10 @@ agentic-cookbook/
 │   ├── context_offloading.py        # Context management with scratchpad
 │   ├── context_compact.py           # Context compression with summarization
 │   ├── context_pruning.py           # Context pruning techniques
+│   ├── a2a/                         # A2A protocol implementation
+│   │   ├── agents.py                # LangGraph A2A conversational agent
+│   │   └── langraph.json            # LangGraph configuration
+│   ├── a2a_agents.py                # A2A agent communication example
 │   ├── mcp/                         # Model Context Protocol servers
 │   │   ├── weather_server.py        # Weather data MCP server
 │   │   └── math_server.py           # Math operations MCP server
@@ -85,6 +89,9 @@ python cookbooks/context_compact.py
 
 # Context pruning techniques
 python cookbooks/context_pruning.py
+
+# A2A agent communication example
+python cookbooks/a2a_agents.py
 
 # Response formatting utilities
 python cookbooks/utils/responses.py
@@ -122,6 +129,10 @@ python cookbooks/utils/responses.py
 - Document loading and chunking from web sources
 - Factory pattern for store creation
 
+### 7. A2A Protocol Implementation (`a2a/`)
+- **Agents** (`a2a/agents.py`): LangGraph A2A conversational agent supporting messages input for conversational interactions
+- **Agent Communication** (`a2a_agents.py`): Example implementation for communication between A2A agents using JSON-RPC protocol
+
 ## Architecture
 
 ### Core Libraries
@@ -129,10 +140,11 @@ python cookbooks/utils/responses.py
 - **LangGraph**: Workflow and state management
 - **LangGraph-Supervisor**: Multi-agent coordination
 - **LangGraph-Bigtool**: Advanced tool handling
+- **LangGraph-Runtime**: A2A protocol support
 - **FastMCP**: Model Context Protocol server implementation
 - **Vector Stores**: PGVector and Chroma for embeddings
 
 ### Configuration
 - Environment variables loaded via `.env` files (python-dotenv)
 - Project metadata and dependencies in `pyproject.toml`
-- Python version requirement: >=3.11.10
+- Python version requirement: >=3.12
