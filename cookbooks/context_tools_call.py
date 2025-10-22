@@ -12,7 +12,7 @@ from langgraph.graph import END, START, StateGraph, MessagesState
 
 # Jupyter display utilities
 from tools.tools_registry import tools_store, tool_registry, init_tools, llm
-from responses import format_messages
+from utils.responses import format_messages
 from dotenv import load_dotenv
 load_dotenv()
 

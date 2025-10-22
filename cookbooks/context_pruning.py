@@ -6,7 +6,7 @@ from langgraph.graph import END, START, MessagesState, StateGraph
 from dotenv import load_dotenv
 
 from tools.retriever_tool import retriever_tool
-from responses import format_messages
+from utils.responses import format_messages
 load_dotenv()
 
 
