@@ -1,4 +1,4 @@
-# Agentic Cookbook
+# Agent Cookbooks
 
 A collection of practical examples demonstrating various agentic AI patterns and techniques using LangChain, LangGraph, and related technologies.
 
