@@ -45,7 +45,7 @@ uv sync --upgrade
 The repository is organized as an agentic AI cookbook with examples demonstrating various patterns and techniques:
 
 ```
-agentic-cookbook/
+agent-cookbooks/
 ├── cookbooks/
 │   ├── multi-agents.py              # Multi-agent coordination with supervisor pattern
 │   ├── context_tools_call.py        # Dynamic tool selection using semantic search
