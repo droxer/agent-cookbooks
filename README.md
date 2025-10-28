@@ -52,6 +52,7 @@ agentic-cookbook/
 │   ├── context_offloading.py        # Context management with scratchpad
 │   ├── context_compact.py           # Context compression with summarization
 │   ├── context_pruning.py           # Context pruning techniques
+│   ├── multimodal_rag.py            # Multimodal RAG with text and image embeddings
 │   ├── a2a/                         # A2A protocol implementation
 │   │   ├── agents.py                # LangGraph A2A conversational agent
 │   │   └── langraph.json            # LangGraph configuration
@@ -60,12 +61,14 @@ agentic-cookbook/
 │   │   ├── weather_server.py        # Weather data MCP server
 │   │   └── math_server.py           # Math operations MCP server
 │   ├── store/                       # Embedding store implementations
+│   │   ├── multimodal_store.py      # Multimodal embedding store with Qdrant
 │   │   └── embedding_store.py       # PGVector and Chroma store abstraction
 │   ├── tools/                       # Tool implementations
 │   │   ├── tools_registry.py        # Math tools registry with semantic search
 │   │   └── retriever_tool.py        # Document retrieval tool
 │   └── utils/
 │       └── responses.py             # Response formatting utilities
+├── images/                          # Sample images for multimodal examples
 ├── pyproject.toml                   # Project dependencies and configuration
 └── README.md                        # This file
 ```
@@ -89,6 +92,9 @@ python cookbooks/context_compact.py
 
 # Context pruning techniques
 python cookbooks/context_pruning.py
+
+# Multimodal RAG with text and image embeddings
+python cookbooks/multimodal_rag.py
 
 # A2A agent communication example
 python cookbooks/a2a_agents.py
@@ -129,7 +135,18 @@ python cookbooks/utils/responses.py
 - Document loading and chunking from web sources
 - Factory pattern for store creation
 
-### 7. A2A Protocol Implementation (`a2a/`)
+### 7. Multimodal RAG (`multimodal_rag.py`)
+- **Multimodal Retrieval**: Combines text and image embeddings for retrieval using Qdrant vector database
+- **Text-Image Embeddings**: Uses SentenceTransformers with CLIP model for encoding both text and images
+- **LangGraph Workflow**: Implements a retrieval-augmented generation pipeline with separate retrieval and generation nodes
+- **Qdrant Integration**: Stores and queries multimodal embeddings with proper vector configurations
+
+### 8. Multimodal Store (`store/multimodal_store.py`)
+- **Data Ingestion**: Processes and stores multimodal documents with both text and image components
+- **Embedding Generation**: Creates text and image embeddings using SentenceTransformers
+- **Qdrant Collections**: Manages vector collections with appropriate dimension configurations for text (384) and image (512) embeddings
+
+### 9. A2A Protocol Implementation (`a2a/`)
 - **Agents** (`a2a/agents.py`): LangGraph A2A conversational agent supporting messages input for conversational interactions
 - **Agent Communication** (`a2a_agents.py`): Example implementation for communication between A2A agents using JSON-RPC protocol
 
