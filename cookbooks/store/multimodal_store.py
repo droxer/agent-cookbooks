@@ -1,13 +1,9 @@
-import os
-
 from sentence_transformers import SentenceTransformer
 from PIL import Image
-import requests
-from io import BytesIO
 from qdrant_client import QdrantClient
 from qdrant_client import QdrantClient, models
 from rich import print
-from urllib.parse import urlparse
+
 
 from dotenv import load_dotenv
 load_dotenv()

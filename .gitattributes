@@ -4,3 +4,5 @@ images/Albert_Einstein_Head.jpg filter=lfs diff=lfs merge=lfs -text
 images/Beethoven.jpg filter=lfs diff=lfs merge=lfs -text
 images/Kheops-Pyramid.jpg filter=lfs diff=lfs merge=lfs -text
 images/Shakespeare.jpg filter=lfs diff=lfs merge=lfs -text
+images/beethoven_white.jpeg filter=lfs diff=lfs merge=lfs -text
+images/Beetoven_query.jpeg filter=lfs diff=lfs merge=lfs -text
