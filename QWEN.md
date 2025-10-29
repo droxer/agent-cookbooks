@@ -1,55 +1,34 @@
-# Agent Cookbooks
+# Agent Cookbooks - Qwen Context
 
-A collection of practical examples demonstrating various agentic AI patterns and techniques using LangChain, LangGraph, and related technologies.
+## Project Overview
 
-## Setup
+The Agent Cookbooks project is a comprehensive collection of practical examples demonstrating various agentic AI patterns and techniques using LangChain, LangGraph, and related technologies. It serves as an educational and reference resource for building intelligent agents with different capabilities and architectures.
 
-1. Install uv:
-```bash
-pip install uv
-```
+The project is structured as a Python codebase with multiple example implementations covering:
 
-2. Create and activate a virtual environment:
-```bash
-uv venv
-source .venv/bin/activate  # On Unix/macOS
-# or
-.venv\Scripts\activate  # On Windows
-```
+- **Multi-Agent Coordination**: Supervisor pattern with specialized agents
+- **Context Management**: Strategies including scratchpad, compression, and pruning
+- **Dynamic Tool Selection**: Semantic search over tools using embeddings
+- **Model Context Protocol (MCP)**: Server implementations for weather and math services
+- **Multimodal RAG**: Retrieval-augmented generation with text and image embeddings
+- **Embedding Store Abstraction**: Unified interface for vector databases
+- **A2A Protocol Implementation**: Agent-to-Agent communication patterns
+- **Long-term Memories**: Semantic search-based memory storage and retrieval
 
-3. Install dependencies:
-```bash
-uv sync
-```
+## Technologies and Libraries
 
-4. Environment Configuration
-   1. Copy `.env.example` to `.env` and add your API keys:
-      - `OPENAI_API_KEY` - OpenAI API key for OpenAI models
-      - `ANTHROPIC_API_KEY` - Anthropic API key for Claude models
-      - `TAVILY_API_KEY` - Tavily API key for search functionality
-      - `VECTOR_STORE_TYPE` - Set to 'pgvector' or 'chroma'
+The project leverages a comprehensive stack of agentic AI libraries:
 
-## Development
+- **LangChain**: Core LLM orchestration and tool management
+- **LangGraph**: Workflow and state management for agents
+- **LangGraph-Supervisor**: Multi-agent coordination patterns
+- **LangGraph-Bigtool**: Advanced tool handling capabilities
+- **LangGraph-Runtime**: A2A protocol support
+- **FastMCP**: Model Context Protocol server implementations
+- **Vector Stores**: PGVector, Chroma, and Qdrant for embedding storage
+- **DeepEval**: Evaluation framework for testing and validation
 
-Project configuration is managed in `pyproject.toml`. This includes:
-- Project metadata (name, version, authors)
-- Python version requirements
-- All project dependencies with their versions
-
-- To add new dependencies:
-```bash
-# Add the dependency to pyproject.toml under [project.dependencies], then run:
-uv sync
-```
-
-- To update dependencies:
-```bash
-uv sync --upgrade
-```
-
-## Codebase Structure
-
-The repository is organized as an agentic AI cookbook with examples demonstrating various patterns and techniques:
+## Project Structure
 
 ```
 agent-cookbooks/
@@ -94,47 +73,75 @@ agent-cookbooks/
 ├── images/                     # Sample images for multimodal examples
 ├── scripts/                    # Utility scripts
 ├── pyproject.toml              # Project dependencies and configuration
-└── README.md                   # This file
+├── README.md                   # Project documentation
+├── CLAUDE.md                   # Claude-specific development guidance
+└── QWEN.md                     # This file
 ```
+
+## Setup and Development
+
+### Prerequisites
+- Python >= 3.12
+- uv package manager (for dependency management)
+
+### Installation
+```bash
+# Install uv if not already installed
+pip install uv
+
+# Create and activate virtual environment
+uv venv
+source .venv/bin/activate  # On Unix/macOS
+# or .venv\Scripts\activate on Windows
+
+# Install dependencies
+uv sync
+```
+
+### Updating Dependencies
+```bash
+uv sync --upgrade
+```
+
+### Environment Configuration
+1. Copy `.env.example` to `.env` and add your API keys:
+   - `OPENAI_API_KEY` - OpenAI API key for OpenAI models
+   - `ANTHROPIC_API_KEY` - Anthropic API key for Claude models
+   - `TAVILY_API_KEY` - Tavily API key for search functionality
+   - `VECTOR_STORE_TYPE` - Set to 'pgvector' or 'chroma'
 
 ## Running Code Examples
 
-Each module in the agent_cookbooks package demonstrates a specific agentic AI technique. You can run them using Python directly or the CLI:
-
-### CLI Usage
-```bash
-# Multi-agent coordination using supervisor pattern
-python -m agent_cookbooks.cli multi-agents
-
-# Dynamic tool selection using semantic search
-python -m agent_cookbooks.cli context-tools-call
-
-# Context management with scratchpad
-python -m agent_cookbooks.cli context-offloading
-
-# Context compression with summarization
-python -m agent_cookbooks.cli context-compact
-
-# Context pruning techniques
-python -m agent_cookbooks.cli context-pruning
-
-# Multimodal RAG with text and image embeddings
-python -m agent_cookbooks.cli multimodal-rag
-```
+Each module in the examples directory demonstrates a specific agentic AI technique. You can run them using Python directly:
 
 ### Direct Module Usage
 ```bash
-# Run specific modules directly
-python -m agent_cookbooks.agents.multi_agents
-python -m agent_cookbooks.context.compact
-python -m agent_cookbooks.context.offloading
-python -m agent_cookbooks.context.pruning
-python -m agent_cookbooks.context.tools_call
-python -m agent_cookbooks.rag.multimodal_rag
-python -m agent_cookbooks.agents.a2a_agents
+# Multi-agent coordination using supervisor pattern
+python examples/agents/multi_agents.py
+
+# Dynamic tool selection using semantic search
+python examples/context/tools_call.py
+
+# Context management with scratchpad
+python examples/context/offloading.py
+
+# Context compression with summarization
+python examples/context/compact.py
+
+# Context pruning techniques
+python examples/context/pruning.py
+
+# Multimodal RAG with text and image embeddings
+python examples/rag/multimodal_rag.py
+
+# A2A agent communication example
+python examples/agents/a2a_agents.py
+
+# Long-term memories with semantic search
+python examples/context/ltm.py
 ```
 
-## Key Components
+## Key Components and Patterns
 
 ### 1. Multi-Agent Coordination (`examples/agents/multi_agents.py`)
 - Implements a supervisor pattern with specialized agents (math expert, research expert)
@@ -186,28 +193,23 @@ python -m agent_cookbooks.agents.a2a_agents
 - **Memory Storage**: Uses InMemoryStore with embedding-based indexing for similarity search
 - **Context Injection**: Automatically retrieves relevant memories to enhance responses
 
-## Architecture
-
-### Core Libraries
-- **LangChain**: Core LLM orchestration and tool management
-- **LangGraph**: Workflow and state management
-- **LangGraph-Supervisor**: Multi-agent coordination
-- **LangGraph-Bigtool**: Advanced tool handling
-- **LangGraph-Runtime**: A2A protocol support
-- **FastMCP**: Model Context Protocol server implementation
-- **Vector Stores**: PGVector, Chroma, and Qdrant for embeddings
-
-### Configuration
-- Environment variables loaded via `.env` files (python-dotenv)
-- Project metadata and dependencies in `pyproject.toml`
-- Python version requirement: >=3.12
-
 ## Development Conventions
 
 - Use LangGraph for workflow and state management
 - Follow the supervisor pattern for multi-agent coordination
 - Leverage semantic search for dynamic tool selection
 - Implement proper context management strategies to handle token limitations
-- Use environment variables for API key and configuration management
+- Use environment variables for API keys and configuration
 - Follow the project's directory structure for organizing new examples
-- Use proper Python package imports (e.g., `from agent_cookbooks.utils.responses import format_messages`)
+- Use proper Python package imports (e.g. `from agent_cookbooks.utils.responses import format_messages`)
+
+## Dependencies
+
+The project uses a comprehensive set of dependencies defined in `pyproject.toml`:
+
+- LangChain ecosystem libraries
+- Vector databases (Chroma, PGVector, Qdrant)
+- MCP implementation
+- Embedding models and utilities
+- Testing and evaluation frameworks
+- Data processing libraries

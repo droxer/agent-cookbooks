@@ -1,10 +1,7 @@
-import os
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
-from typing import Annotated, Sequence, TypedDict
+from typing import TypedDict
 
 from sentence_transformers import SentenceTransformer
-from PIL import Image
-from langgraph.graph import StateGraph, END, MessagesState
+from langgraph.graph import StateGraph, END
 from langchain.chat_models import init_chat_model
 from qdrant_client import QdrantClient
 from rich import print

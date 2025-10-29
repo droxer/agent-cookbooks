@@ -1,7 +1,7 @@
 [project]
-name = "agentic-cookbook"
+name = "agent-cookbooks"
 version = "0.1.0"
-description = "Add your description here"
+description = "A collection of practical examples demonstrating various agentic AI patterns and techniques using LangChain, LangGraph, and related technologies"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -46,3 +46,13 @@ dependencies = [
     "tantivy>=0.22.2",
     "yfinance>=0.2.55",
 ]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+agent-cookbooks = "agent_cookbooks.cli:main"
+
+[project.entry-points."langgraph"]
+# Example of defining entry points for langgraph integrations
+"agent-cookbooks.agents" = "agent_cookbooks.agents"

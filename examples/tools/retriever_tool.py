@@ -1,12 +1,8 @@
 import os
-import sys
 from pprint import pprint
 
-# Add project root to path for imports
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-
 # Import our new embedding store module
-from store.embedding_store import (
+from examples.store.embedding_store import (
     StoreType,
     create_populated_store
 )

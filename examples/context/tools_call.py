@@ -11,8 +11,8 @@ from langgraph.store.base import BaseStore
 from langgraph.graph import END, START, StateGraph, MessagesState
 
 # Jupyter display utilities
-from tools.tools_registry import tools_store, tool_registry, init_tools, llm
-from utils.responses import format_messages
+from examples.tools.registry import tools_store, tool_registry, init_tools, llm
+from examples.utils.responses import format_messages
 from dotenv import load_dotenv
 load_dotenv()
 

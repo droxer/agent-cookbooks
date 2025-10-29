@@ -5,8 +5,8 @@ from langchain_core.messages import SystemMessage, ToolMessage
 from langgraph.graph import END, START, MessagesState, StateGraph
 from dotenv import load_dotenv
 
-from tools.retriever_tool import retriever_tool
-from responses import format_messages
+from examples.tools.retriever_tool import retriever_tool
+from examples.http.responses import format_messages
 
 load_dotenv()
 
