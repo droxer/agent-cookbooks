@@ -3,7 +3,7 @@ from langchain.chat_models import init_chat_model
 from langgraph.prebuilt import create_react_agent
 from langgraph_supervisor import create_supervisor
 
-from examples.utils.responses import format_messages
+from examples.http.responses import format_messages
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -36,7 +36,6 @@ def multiply(a: float, b: float) -> float:
     """
     return a * b
 
-# Mock data retrieval function
 def web_search(query: str) -> str:
     """Mock web search function that returns FAANG company headcounts.
     

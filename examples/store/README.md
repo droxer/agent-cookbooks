@@ -10,9 +10,7 @@ Qdrant is a vector database that can be run locally using Docker or Podman. Belo
 
 1. **Run Qdrant container**:
    ```bash
-   docker run -p 6333:6333 -p 6334:6334 \
-       -v $(pwd)/qdrant_storage:/qdrant/storage:z \
-       qdrant/qdrant
+    docker run -p 6333:6333 -d --name qdrant qdrant/qdrant
    ```
 
 2. **Verify Qdrant is running**:
@@ -24,9 +22,7 @@ Qdrant is a vector database that can be run locally using Docker or Podman. Belo
 
 1. **Run Qdrant container**:
    ```bash
-   podman run -p 6333:6333 -p 6334:6334 \
-       -v $(pwd)/qdrant_storage:/qdrant/storage:z \
-       docker.io/qdrant/qdrant
+   podman run -p 6333:6333 -d --name qdrant qdrant/qdrant
    ```
 
 2. **Verify Qdrant is running**:

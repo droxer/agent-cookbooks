@@ -18,8 +18,10 @@ dependencies = [
     "langchain-anthropic>=0.3.22",
     "langchain-chroma>=0.2.6",
     "langchain-community>=0.3.31",
+    "langchain-huggingface>=0.3.1",
     "langchain-mcp-adapters>=0.1.11",
     "langchain-openai>=0.3.35",
+    "langchain-qdrant>=0.2.1",
     "langchain-tavily>=0.2.12",
     "langextract>=1.0.9",
     "langgraph>=0.6.10",
@@ -47,8 +49,16 @@ dependencies = [
     "yfinance>=0.2.55",
 ]
 
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["."]
+include = ["examples*"]
+
+[tool.uv]
+package = true
 
 [project.scripts]
 agent-cookbooks = "agent_cookbooks.cli:main"
