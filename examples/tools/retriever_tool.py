@@ -22,9 +22,9 @@ urls = [
     "https://lilianweng.github.io/posts/2024-04-12-diffusion-video/",
 ]
 
-# Get store type from environment variable (default to PGVector)
-store_type_str = os.getenv("VECTOR_STORE_TYPE", "pgvector").lower()
-store_type = StoreType.PGVECTOR if store_type_str == "pgvector" else StoreType.CHROMA
+# Get store type from environment variable (default to Qdrant)
+store_type_str = os.getenv("VECTOR_STORE_TYPE", "qdrant").lower()
+store_type = StoreType.QDRANT if store_type_str == "qdrant" else StoreType.PGVECTOR
 
 console.print(f"[blue]Using {store_type.value.upper()} store...[/blue]")
 

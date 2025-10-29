@@ -3,7 +3,7 @@ Embedding Store Module
 
 Provides a unified interface for different vector store backends including:
 - PGVector (PostgreSQL)
-- Chroma (local/embedded)
+- Qdrant (remote/local)
 """
 
 import os
@@ -15,8 +15,7 @@ from langchain_community.document_loaders import WebBaseLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.embeddings import init_embeddings
 from langchain_core.documents import Document
-from langchain_community.vectorstores import PGVector
-from langchain_chroma import Chroma
+from langchain_community.vectorstores import PGVector, Qdrant
 from langchain.tools.retriever import create_retriever_tool
 from dotenv import load_dotenv
 
@@ -31,7 +30,7 @@ load_dotenv()
 class StoreType(Enum):
     """Supported vector store types."""
     PGVECTOR = "pgvector"
-    CHROMA = "chroma"
+    QDRANT = "qdrant"
 
 
 class EmbeddingStore(ABC):
@@ -124,52 +123,81 @@ class PGVectorStore(EmbeddingStore):
         return self._vectorstore.similarity_search(query, k=k)
 
 
-class ChromaStore(EmbeddingStore):
-    """Chroma implementation of embedding store."""
+class QdrantStore(EmbeddingStore):
+    """Qdrant implementation of embedding store."""
 
-    def __init__(self, persist_directory: str = "./chroma_db", **kwargs):
+    def __init__(self, url: str = "http://localhost:6333", **kwargs):
         super().__init__(**kwargs)
-        self.persist_directory = persist_directory
+        self.url = url
+        self._client = None
 
     def connect_or_create(self, collection_name: str, **kwargs) -> bool:
-        """Connect to existing Chroma store or create new one."""
+        """Connect to existing Qdrant store or create new one."""
+        from qdrant_client import QdrantClient
+        from qdrant_client.http import models as rest
+
+        # Initialize client
+        self._client = QdrantClient(url=self.url)
+
         try:
             # Try to connect to existing store
-            self._vectorstore = Chroma(
-                embedding_function=self.embeddings,
-                persist_directory=self.persist_directory,
-                collection_name=collection_name,
-            )
+            collections = self._client.get_collections()
+            collection_names = [collection.name for collection in collections.collections]
 
-            # Test if store has content
-            test_results = self.similarity_search("test", k=1)
-            if len(test_results) == 0:
-                console.print("[yellow]Connected to existing Chroma store but it's empty.[/yellow]")
-                return True  # Need to populate
+            if collection_name in collection_names:
+                # Collection exists, try to initialize vectorstore
+                self._vectorstore = Qdrant(
+                    client=self._client,
+                    collection_name=collection_name,
+                    embeddings=self.embeddings,
+                )
+
+                # Test if store has content
+                test_results = self.similarity_search("test", k=1)
+                if len(test_results) == 0:
+                    console.print("[yellow]Connected to existing Qdrant store but it's empty.[/yellow]")
+                    return True  # Need to populate
+                else:
+                    console.print(f"[green]Connected to existing Qdrant store with {len(test_results)}+ documents.[/green]")
+                    return False  # Using existing store
             else:
-                console.print(f"[green]Connected to existing Chroma store with {len(test_results)}+ documents.[/green]")
-                return False  # Using existing store
+                # Collection doesn't exist, will create new one
+                raise Exception(f"Collection {collection_name} not found")
 
         except Exception as e:
-            console.print(f"[yellow]No existing Chroma store found (error: {e}). Will create new store.[/yellow]")
-            self._vectorstore = Chroma(
-                embedding_function=self.embeddings,
-                persist_directory=self.persist_directory,
+            console.print(f"[yellow]No existing Qdrant store found (error: {e}). Will create new store.[/yellow]")
+
+            # Get embedding dimensions
+            test_embedding = self.embeddings.embed_query("test")
+            vector_size = len(test_embedding)
+
+            # Create collection
+            self._client.create_collection(
                 collection_name=collection_name,
+                vectors_config=rest.VectorParams(
+                    size=vector_size,
+                    distance=rest.Distance.COSINE
+                )
+            )
+
+            # Initialize vectorstore
+            self._vectorstore = Qdrant(
+                client=self._client,
+                collection_name=collection_name,
+                embeddings=self.embeddings,
             )
             return True  # Need to populate
 
     def add_documents(self, documents: List[Document]) -> None:
-        """Add documents to Chroma store."""
+        """Add documents to Qdrant store."""
         if self._vectorstore is None:
             raise ValueError("Vector store not initialized. Call connect_or_create first.")
 
         self._vectorstore.add_documents(documents)
-        self._vectorstore.persist()  # Persist to disk
-        console.print(f"[green]Added {len(documents)} document chunks to Chroma store.[/green]")
+        console.print(f"[green]Added {len(documents)} document chunks to Qdrant store.[/green]")
 
     def similarity_search(self, query: str, k: int = 4) -> List[Document]:
-        """Search for similar documents in Chroma store."""
+        """Search for similar documents in Qdrant store."""
         if self._vectorstore is None:
             raise ValueError("Vector store not initialized. Call connect_or_create first.")
 
@@ -187,8 +215,8 @@ class EmbeddingStoreFactory:
         """Create an embedding store of the specified type."""
         if store_type == StoreType.PGVECTOR:
             return PGVectorStore(**kwargs)
-        elif store_type == StoreType.CHROMA:
-            return ChromaStore(**kwargs)
+        elif store_type == StoreType.QDRANT:
+            return QdrantStore(**kwargs)
         else:
             raise ValueError(f"Unsupported store type: {store_type}")
 
@@ -213,7 +241,7 @@ def load_and_split_documents(
 
 
 def create_populated_store(
-    store_type: StoreType = StoreType.PGVECTOR,
+    store_type: StoreType = StoreType.QDRANT,
     collection_name: str = "default_collection",
     urls: Optional[List[str]] = None,
     chunk_size: int = 3000,
