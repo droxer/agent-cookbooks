@@ -27,6 +27,8 @@ uv sync --upgrade
 This is a cookbook of agentic AI patterns. Each module in the examples directory demonstrates a specific technique:
 
 - `python examples/agents/multi_agents.py` - Multi-agent coordination using supervisor pattern
+- `python examples/agents/intelligent_memory_agent.py` - Intelligent memory agent with Qdrant-based storage and importance scoring
+- `python examples/agents/shared_memory_agents.py` - Shared memory agents with team and personal memory stores
 - `python examples/context/tools_call.py` - Dynamic tool selection using semantic search
 - `python examples/context/offloading.py` - Context management with scratchpad
 - `python examples/context/compact.py` - Context compression with summarization
@@ -61,6 +63,11 @@ This is a cookbook of agentic AI patterns. Each module in the examples directory
    - **Compression** (`examples/context/compact.py`): Tool output summarization using separate LLM
    - **Pruning** (`examples/context/pruning.py`): Selective context retention
 
+4. **Qdrant-based Memory Agents**:
+   - **Intelligent Memory Agent** (`examples/agents/intelligent_memory_agent.py`): Hybrid memory system with automatic importance scoring and timestamping
+   - **Shared Memory Agents** (`examples/agents/shared_memory_agents.py`): Multi-agent system with personal and team-wide memory sharing
+   - **Weighted Search**: Advanced retrieval considering semantic similarity, importance scores, and temporal decay
+
 ### Tool System
 
 The `examples/tools/registry.py` module provides:
@@ -83,6 +90,9 @@ The `examples/tools/registry.py` module provides:
 
 - **Semantic Search**: Enables agents to store and retrieve personal user memories and information (`examples/context/ltm.py`)
 - **Memory Storage**: Uses InMemoryStore with embedding-based indexing for similarity search
+- **Qdrant-based Storage**: Advanced memory storage using Qdrant vector database with importance scoring and timestamping
+- **Hybrid Memory**: Combination of short-term memory (in-memory) and long-term memory (persistent Qdrant storage)
+- **Shared Memory**: Team-wide memory sharing between agents with personal and shared memory stores
 - **Context Injection**: Automatically retrieves relevant memories to enhance responses
 
 ## Dependencies
@@ -95,6 +105,8 @@ The project uses a comprehensive stack of agentic AI libraries:
 - **LangGraph-Runtime**: A2A protocol support
 - **FastMCP**: Model Context Protocol server implementation
 - **Vector Stores**: PGVector, Chroma, and Qdrant for embeddings
+- **Qdrant Client**: Native Qdrant vector database client
+- **HuggingFace Embeddings**: Sentence transformers for vector embeddings
 - **DeepEval**: Evaluation framework
 - Various vector stores and embedding providers
 
@@ -110,18 +122,22 @@ The project follows Python best practices with an `examples` layout:
 
 ```
 examples/
-├── agents/              # Multi-agent coordination implementations
-├── context/             # Context management strategies  
-├── mcp/                 # Model Context Protocol servers
-├── rag/                 # Retrieval-Augmented Generation implementations
-├── store/               # Embedding store implementations
-│   ├── embedding_store.py # PGVector and Chroma store abstraction
-│   └── multimodal_store.py # Multimodal store with Qdrant for text and image embeddings
-├── tools/               # Tool implementations
-├── evals/               # Evaluation implementations
-├── ltm/                 # Long-term memory implementations
-│   └── ltm.py           # Long-term memories with semantic search
-├── http/                # HTTP utilities
-│   └── responses.py     # Response formatting utilities
-└── a2a/                 # A2A protocol implementation
+├── agents/                    # Multi-agent coordination implementations
+│   ├── intelligent_memory_agent.py  # Intelligent memory agent with Qdrant
+│   └── shared_memory_agents.py      # Shared memory agents with team/personal stores
+├── context/                   # Context management strategies
+├── mcp/                       # Model Context Protocol servers
+├── rag/                       # Retrieval-Augmented Generation implementations
+├── store/                     # Embedding store implementations
+│   ├── embedding_store.py     # PGVector and Chroma store abstraction
+│   ├── multimodal_store.py    # Multimodal store with Qdrant for text and image embeddings
+│   ├── qdrant_store_adapter.py # Qdrant store adapter with weighted search
+│   └── README.md              # Documentation for vector store setup
+├── tools/                     # Tool implementations
+├── evals/                     # Evaluation implementations
+├── ltm/                       # Long-term memory implementations
+│   └── ltm.py                 # Long-term memories with semantic search
+├── http/                      # HTTP utilities
+│   └── responses.py           # Response formatting utilities
+└── a2a/                       # A2A protocol implementation
 ```

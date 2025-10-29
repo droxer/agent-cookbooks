@@ -14,6 +14,8 @@ The project is structured as a Python codebase with multiple example implementat
 - **Embedding Store Abstraction**: Unified interface for vector databases
 - **A2A Protocol Implementation**: Agent-to-Agent communication patterns
 - **Long-term Memories**: Semantic search-based memory storage and retrieval
+- **Qdrant-based Memory Agents**: Intelligent agents with hybrid memory systems using Qdrant vector database
+- **Shared Memory Systems**: Team-wide memory sharing between multiple agents
 
 ## Technologies and Libraries
 
@@ -26,6 +28,8 @@ The project leverages a comprehensive stack of agentic AI libraries:
 - **LangGraph-Runtime**: A2A protocol support
 - **FastMCP**: Model Context Protocol server implementations
 - **Vector Stores**: PGVector, Chroma, and Qdrant for embedding storage
+- **Qdrant Client**: Native Qdrant vector database client
+- **HuggingFace Embeddings**: Sentence transformers for vector embeddings
 - **DeepEval**: Evaluation framework for testing and validation
 
 ## Project Structure
@@ -37,6 +41,8 @@ agent-cookbooks/
 │   │   ├── __init__.py
 │   │   ├── multi_agents.py     # Multi-agent coordination with supervisor pattern
 │   │   ├── a2a_agents.py       # A2A agent communication example
+│   │   ├── intelligent_memory_agent.py  # Intelligent memory agent with Qdrant
+│   │   ├── shared_memory_agents.py      # Shared memory agents with team/personal stores
 │   │   └── a2a/                # A2A protocol implementation
 │   │       ├── agents.py       # LangGraph A2A conversational agent
 │   │       └── __init__.py
@@ -58,7 +64,9 @@ agent-cookbooks/
 │   ├── store/                  # Embedding store implementations
 │   │   ├── __init__.py
 │   │   ├── embedding_store.py  # PGVector and Chroma store abstraction
-│   │   └── multimodal_store.py # Multimodal embedding store with Qdrant
+│   │   ├── multimodal_store.py # Multimodal embedding store with Qdrant
+│   │   ├── qdrant_store_adapter.py # Qdrant store adapter with weighted search
+│   │   └── README.md           # Documentation for vector store setup
 │   ├── tools/                  # Tool implementations
 │   │   ├── __init__.py
 │   │   └── registry.py         # Math tools registry with semantic search
@@ -108,7 +116,7 @@ uv sync --upgrade
    - `OPENAI_API_KEY` - OpenAI API key for OpenAI models
    - `ANTHROPIC_API_KEY` - Anthropic API key for Claude models
    - `TAVILY_API_KEY` - Tavily API key for search functionality
-   - `VECTOR_STORE_TYPE` - Set to 'pgvector' or 'chroma'
+   - `VECTOR_STORE_TYPE` - Set to 'pgvector', 'chroma', or 'qdrant'
 
 ## Running Code Examples
 
@@ -118,6 +126,12 @@ Each module in the examples directory demonstrates a specific agentic AI techniq
 ```bash
 # Multi-agent coordination using supervisor pattern
 python examples/agents/multi_agents.py
+
+# Intelligent memory agent with Qdrant-based storage and importance scoring
+python examples/agents/intelligent_memory_agent.py
+
+# Shared memory agents with team and personal memory stores
+python examples/agents/shared_memory_agents.py
 
 # Dynamic tool selection using semantic search
 python examples/context/tools_call.py
@@ -184,11 +198,29 @@ python examples/context/ltm.py
 - **Embedding Generation**: Creates text and image embeddings using SentenceTransformers
 - **Qdrant Collections**: Manages vector collections with appropriate dimension configurations for text (384) and image (512) embeddings
 
-### 9. A2A Protocol Implementation (`examples/agents/a2a/`)
+### 9. Qdrant Store Adapter (`examples/store/qdrant_store_adapter.py`)
+- **Qdrant Integration**: Native Qdrant vector database client with HuggingFace embeddings
+- **Weighted Search**: Advanced retrieval considering semantic similarity, importance scores, and temporal decay
+- **Hybrid Memory Storage**: Combines short-term memory (in-memory) with long-term memory (persistent Qdrant storage)
+- **Session Management**: Supports isolated memory sessions for different users or contexts
+
+### 10. Intelligent Memory Agent (`examples/agents/intelligent_memory_agent.py`)
+- **Automatic Importance Scoring**: Uses LLM to rate conversation importance for long-term storage
+- **Timestamp-based Storage**: Automatically timestamps memories for temporal context
+- **Hybrid Memory System**: Combines short-term conversation context with long-term Qdrant storage
+- **Weighted Retrieval**: Recalls memories based on semantic similarity, importance, and recency
+
+### 11. Shared Memory Agents (`examples/agents/shared_memory_agents.py`)
+- **Team-wide Memory Sharing**: Enables multiple agents to share and access common knowledge base
+- **Personal Memory Stores**: Each agent maintains personal memory in addition to shared team memory
+- **Collaborative Context**: Agents can leverage both personal experience and team knowledge
+- **Selective Sharing**: Agents can choose which memories to share with the team
+
+### 12. A2A Protocol Implementation (`examples/agents/a2a/`)
 - **Agents** (`examples/agents/a2a/agents.py`): LangGraph A2A conversational agent supporting messages input for conversational interactions
 - **Agent Communication** (`examples/agents/a2a_agents.py`): Example implementation for communication between A2A agents using JSON-RPC protocol
 
-### 10. Long-term Memories (`examples/context/ltm.py`)
+### 13. Long-term Memories (`examples/context/ltm.py`)
 - **Semantic Search**: Enables agents to store and retrieve personal user memories and information
 - **Memory Storage**: Uses InMemoryStore with embedding-based indexing for similarity search
 - **Context Injection**: Automatically retrieves relevant memories to enhance responses

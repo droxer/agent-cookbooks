@@ -59,10 +59,3 @@ include = ["examples*"]
 
 [tool.uv]
 package = true
-
-[project.scripts]
-agent-cookbooks = "agent_cookbooks.cli:main"
-
-[project.entry-points."langgraph"]
-# Example of defining entry points for langgraph integrations
-"agent-cookbooks.agents" = "agent_cookbooks.agents"

@@ -27,7 +27,7 @@ uv sync
       - `OPENAI_API_KEY` - OpenAI API key for OpenAI models
       - `ANTHROPIC_API_KEY` - Anthropic API key for Claude models
       - `TAVILY_API_KEY` - Tavily API key for search functionality
-      - `VECTOR_STORE_TYPE` - Set to 'pgvector' or 'chroma'
+      - `VECTOR_STORE_TYPE` - Set to 'pgvector', 'chroma', or 'qdrant'
 
 ## Development
 
@@ -98,3 +98,21 @@ uv sync --upgrade
 - **Semantic Search**: Enables agents to store and retrieve personal user memories and information
 - **Memory Storage**: Uses InMemoryStore with embedding-based indexing for similarity search
 - **Context Injection**: Automatically retrieves relevant memories to enhance responses
+
+### 11. Qdrant Store Adapter (`examples/store/qdrant_store_adapter.py`)
+- **Qdrant Integration**: Native Qdrant vector database client with HuggingFace embeddings
+- **Weighted Search**: Advanced retrieval considering semantic similarity, importance scores, and temporal decay
+- **Hybrid Memory Storage**: Combines short-term memory (in-memory) with long-term memory (persistent Qdrant storage)
+- **Session Management**: Supports isolated memory sessions for different users or contexts
+
+### 12. Intelligent Memory Agent (`examples/agents/intelligent_memory_agent.py`)
+- **Automatic Importance Scoring**: Uses LLM to rate conversation importance for long-term storage
+- **Timestamp-based Storage**: Automatically timestamps memories for temporal context
+- **Hybrid Memory System**: Combines short-term conversation context with long-term Qdrant storage
+- **Weighted Retrieval**: Recalls memories based on semantic similarity, importance, and recency
+
+### 13. Shared Memory Agents (`examples/agents/shared_memory_agents.py`)
+- **Team-wide Memory Sharing**: Enables multiple agents to share and access common knowledge base
+- **Personal Memory Stores**: Each agent maintains personal memory in addition to shared team memory
+- **Collaborative Context**: Agents can leverage both personal experience and team knowledge
+- **Selective Sharing**: Agents can choose which memories to share with the team
