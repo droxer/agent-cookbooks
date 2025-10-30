@@ -181,11 +181,11 @@ class QdrantStore(BaseStore):
                 else datetime.now(timezone.utc).timestamp()
             )
 
-            # 时间衰减权重 (半衰期衰减)
+            # Time decay weight (half-life decay)
             delta_days = (now - ts) / 86400
             time_weight = 0.5 ** (delta_days / decay_half_life_days)
 
-            # 综合得分 = 语义相似度 × (importance^boost) × time_weight
+            # Combined score = semantic similarity × (importance^boost) × time_weight
             weighted_score = sim_score * (importance_boost * importance) * time_weight
 
             try:

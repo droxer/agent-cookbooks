@@ -2,6 +2,7 @@ from sentence_transformers import SentenceTransformer
 from PIL import Image
 from qdrant_client import QdrantClient
 from qdrant_client import QdrantClient, models
+import numpy as np
 from rich import print
 
 
@@ -9,8 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 client = QdrantClient("http://localhost:6333")
-# text_encoder = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-encoder = SentenceTransformer("clip-ViT-B-32")
+model = SentenceTransformer("clip-ViT-B-32")
 
 BROWSER_HEADERS = {
     "User-Agent": (
@@ -62,18 +62,30 @@ docs = [
     # --- Animals ---
     {
         "id": 21,
-        "text": "The dog is a domesticated mammal that is the largest dog species.",
-        "image_url": "./images/cute_dog.jpeg",
+        "text": "This is a dog.",
+        "image_url": "./images/dog.jpeg",
         "metadata": {"topic": "animals", "subtopic": "dog"}
     },
     {
         "id": 22,
-        "text": "The cat is a domesticated mammal that is the largest cat species.",
-        "image_url": "./images/cute_cat.jpeg",
+        "text": "This is a cat.",
+        "image_url": "./images/cat.jpeg",
         "metadata": {"topic": "animals", "subtopic": "cat"}
+    },
+    {
+        "id": 23,
+        "text": "This is a panda.",
+        "image_url": "./images/panda.jpeg",
+        "metadata": {"topic": "animals", "subtopic": "panda"}
+    },
+    {
+        "id": 24,
+        "text": "This is an elephant.",
+        "image_url": "./images/elephant.jpeg",
+        "metadata": {"topic": "animals", "subtopic": "elephant"}
     }
+    
 ]
-
 
 def init_collection():
     client.recreate_collection(
@@ -88,8 +100,8 @@ def ingest_data(docs):
     points = []
     for doc in docs:
         img = Image.open(doc["image_url"])
-        img_vec = encoder.encode([img])[0]
-        text_vec = encoder.encode([doc["text"]])[0]
+        img_vec = model.encode([img], normalize_embeddings=True)[0]
+        text_vec = model.encode([doc["text"]], normalize_embeddings=True)[0]
 
         points.append(models.PointStruct(
             id=doc["id"],
@@ -98,7 +110,7 @@ def ingest_data(docs):
         ))
 
     client.upsert(collection_name="text_multimodal", points=points)
-    print("✅ 数据已导入 Qdrant")
+    print("✅ Data ingested into Qdrant")
 
 def init_store():
     init_collection()
