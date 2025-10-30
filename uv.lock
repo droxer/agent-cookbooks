@@ -20,6 +20,7 @@ name = "agent-cookbooks"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "chroma" },
     { name = "chromadb" },
     { name = "deepeval" },
     { name = "dotenv" },
@@ -66,6 +67,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "chroma", specifier = ">=0.2.0" },
     { name = "chromadb", specifier = ">=0.5.0" },
     { name = "deepeval", specifier = ">=3.1.8" },
     { name = "dotenv", specifier = ">=0.9.9" },
@@ -471,6 +473,12 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/27/f2/4f9a69cc7712b9b5ad8fdb87039fd89abba997ad5cbe690d1835d40405b0/charset_normalizer-3.4.1-cp313-cp313-win_amd64.whl", hash = "sha256:b1ac5992a838106edb89654e0aebfc24f5848ae2547d22c2c3f66454daa11971", size = 102702, upload-time = "2024-12-24T18:11:26.535Z" },
     { url = "https://files.pythonhosted.org/packages/0e/f6/65ecc6878a89bb1c23a086ea335ad4bf21a588990c3f535a227b9eea9108/charset_normalizer-3.4.1-py3-none-any.whl", hash = "sha256:d98b1668f06378c6dbefec3b92299716b931cd4e6061f3c875a71ced1780ab85", size = 49767, upload-time = "2024-12-24T18:12:32.852Z" },
 ]
+
+[[package]]
+name = "chroma"
+version = "0.2.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/9f/f0/e747fa78cd8ff7d23a598ab21b79988b759c2248500e0d31f21620cb75f3/Chroma-0.2.0.tar.gz", hash = "sha256:e265bcd503e2b35c4448b83257467166c252ecf3ab610492432780691cdfb286", size = 5790, upload-time = "2013-02-01T20:43:22.781Z" }
 
 [[package]]
 name = "chromadb"

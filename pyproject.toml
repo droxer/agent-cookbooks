@@ -5,6 +5,7 @@ description = "A collection of practical examples demonstrating various agentic 
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "chroma>=0.2.0",
     "chromadb>=0.5.0",
     "deepeval>=3.1.8",
     "dotenv>=0.9.9",

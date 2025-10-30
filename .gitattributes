@@ -6,3 +6,5 @@ images/Kheops-Pyramid.jpg filter=lfs diff=lfs merge=lfs -text
 images/Shakespeare.jpg filter=lfs diff=lfs merge=lfs -text
 images/beethoven_white.jpeg filter=lfs diff=lfs merge=lfs -text
 images/Beetoven_query.jpeg filter=lfs diff=lfs merge=lfs -text
+images/cute_cat.jpeg filter=lfs diff=lfs merge=lfs -text
+images/cute_dog.jpeg filter=lfs diff=lfs merge=lfs -text

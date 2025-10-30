@@ -9,8 +9,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 client = QdrantClient("http://localhost:6333")
-text_encoder = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-image_encoder = SentenceTransformer("clip-ViT-B-32")
+# text_encoder = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+encoder = SentenceTransformer("clip-ViT-B-32")
 
 BROWSER_HEADERS = {
     "User-Agent": (
@@ -58,6 +58,19 @@ docs = [
         "text": "Beethoven was a German composer who bridged the Classical and Romantic eras in music.",
         "image_url": "./images/Beethoven.jpg",
         "metadata": {"topic": "music", "subtopic": "classical_composer"}
+    },
+    # --- Animals ---
+    {
+        "id": 21,
+        "text": "The dog is a domesticated mammal that is the largest dog species.",
+        "image_url": "./images/cute_dog.jpeg",
+        "metadata": {"topic": "animals", "subtopic": "dog"}
+    },
+    {
+        "id": 22,
+        "text": "The cat is a domesticated mammal that is the largest cat species.",
+        "image_url": "./images/cute_cat.jpeg",
+        "metadata": {"topic": "animals", "subtopic": "cat"}
     }
 ]
 
@@ -66,7 +79,7 @@ def init_collection():
     client.recreate_collection(
         collection_name="text_multimodal",
         vectors_config={
-            "text_vector": models.VectorParams(size=384, distance=models.Distance.COSINE),
+            "text_vector": models.VectorParams(size=512, distance=models.Distance.COSINE),
             "image_vector": models.VectorParams(size=512, distance=models.Distance.COSINE)
         }
     )
@@ -75,8 +88,8 @@ def ingest_data(docs):
     points = []
     for doc in docs:
         img = Image.open(doc["image_url"])
-        img_vec = image_encoder.encode([img])[0]
-        text_vec = text_encoder.encode([doc["text"]])[0]
+        img_vec = encoder.encode([img])[0]
+        text_vec = encoder.encode([doc["text"]])[0]
 
         points.append(models.PointStruct(
             id=doc["id"],
