@@ -2,7 +2,7 @@
     "$schema": "https://langgra.ph/schema.json",
     "dependencies": ["."],
     "graphs": {
-      "a1": "cookbooks.a2a.agents:graph",
-      "a2": "cookbooks.a2a.agents:graph"
+      "a1": "examples.agents.a2a.agents:graph",
+      "a2": "examples.agents.a2a.agents:graph"
     }
   } 
