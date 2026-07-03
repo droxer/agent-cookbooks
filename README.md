@@ -61,7 +61,7 @@ uv sync --upgrade
 
 ## Examples
 
-### 1. Multi-Agent Coordination (`examples/agents/multi_agents.py`)
+### 1. Multi-Agent Coordination (`examples/agents/super_agent.py`)
 Supervisor pattern with specialized agents (math/research experts) using LangGraph
 
 ### 2. Dynamic Tool Selection (`examples/context/tools_call.py`)
@@ -97,7 +97,7 @@ Semantic search for storing and retrieving personal user memories
 ### 11. Qdrant Store Adapter (`examples/store/qdrant_store_adapter.py`)
 Advanced retrieval with semantic similarity, importance scores, and temporal decay
 
-### 12. Intelligent Memory Agent (`examples/agents/intelligent_memory_agent.py`)
+### 12. Intelligent Memory Agent (`examples/agents/memorized_agent.py`)
 LLM-rated importance scoring with timestamped memory storage
 
 ### 13. Shared Memory Agents (`examples/agents/shared_memory_agents.py`)
@@ -127,6 +127,19 @@ Multi-server MCP client integration with REACT agents
 ### 20. Evaluation Framework (`examples/evals/test_deepeval.py`)
 DeepEval integration for comprehensive testing metrics
 
+### 21. Deep Agents (`examples/agents/deep_agents.py`)
+Deep research agent using the `deepagents` package with web search via Tavily
+
+### 22. Agent Harness Engineering (`examples/harness/agent_harness.py`)
+The outer loop that owns the agent: budgets (turns, tool calls, wall-clock deadline),
+per-tool permission gating (allow/confirm/deny), tool error recovery, output
+truncation, model retries with exponential backoff, and a structured trace
+
+### 23. Loop Engineering (`examples/loop/agentic_loop.py`)
+Generate → verify → refine (evaluator-optimizer) loop with an explicit doneness
+contract, a bounded revision budget, feedback routing between iterations, and
+graceful degradation to the best attempt when the budget is exhausted
+
 ## Architecture
 
 ### Core Components
@@ -138,7 +151,7 @@ DeepEval integration for comprehensive testing metrics
 
 ### Key Patterns
 
-1. **Multi-Agent Coordination** (`examples/agents/multi_agents.py`):
+1. **Multi-Agent Coordination** (`examples/agents/super_agent.py`):
    - Supervisor pattern with specialized agents (math expert, research expert)
    - Uses `langgraph_supervisor` for agent delegation
    - Clear role separation and coordination
@@ -179,9 +192,24 @@ DeepEval integration for comprehensive testing metrics
    - Advanced similarity matching across modalities
 
 9. **Qdrant-based Memory Agents**:
-   - **Intelligent Memory Agent** (`examples/agents/intelligent_memory_agent.py`): Hybrid memory system with automatic importance scoring and timestamping
+   - **Intelligent Memory Agent** (`examples/agents/memorized_agent.py`): Hybrid memory system with automatic importance scoring and timestamping
    - **Shared Memory Agents** (`examples/agents/shared_memory_agents.py`): Multi-agent system with personal and team-wide memory sharing
    - **Weighted Search**: Advanced retrieval considering semantic similarity, importance scores, and temporal decay
+
+10. **Agent Harness Engineering** (`examples/harness/agent_harness.py`):
+    - The harness owns the loop: bounded iteration with enumerated stop reasons
+    - Budgets enforced outside the model: max turns, max tool calls, wall-clock deadline
+    - Per-tool permission gating (allow / confirm / deny)
+    - Tool failures fed back as observations instead of crashing the run
+    - Oversized tool output truncated before entering the context window
+    - Model retries with exponential backoff and a structured event trace
+
+11. **Loop Engineering** (`examples/loop/agentic_loop.py`):
+    - Evaluator-optimizer loop: generate → verify → refine
+    - Doneness decided by a verifier against explicit acceptance criteria, not by the generator's self-report
+    - Bounded revision budget with graceful exit to the best-scoring attempt
+    - Verifier feedback routed into the next generation attempt
+    - Full attempt history and stop reason recorded for auditability
 
 ### Tool System
 
@@ -223,12 +251,26 @@ The project follows Python best practices with an `examples` layout:
 
 ```
 examples/
-├── agents/                    # Multi-agent coordination implementations
-│   ├── intelligent_memory_agent.py  # Intelligent memory agent with Qdrant
+├── agents/                    # Agent implementations
+│   ├── super_agent.py               # Multi-agent supervisor coordination
+│   ├── deep_agents.py               # Deep research agent (deepagents + Tavily)
+│   ├── memorized_agent.py           # Intelligent memory agent with Qdrant
 │   ├── shared_memory_agents.py      # Shared memory agents with team/personal stores
 │   ├── react_agent.py               # ReAct pattern implementation
-│   └── llm_proxy.py                 # Multi-provider LLM proxy
+│   ├── llm_proxy.py                 # Multi-provider LLM proxy
+│   ├── a2a_agents.py                # A2A JSON-RPC client example
+│   └── a2a/                         # A2A protocol implementation
+│       └── agents.py                # A2A conversational agents
+├── harness/                   # Agent harness engineering
+│   └── agent_harness.py       # Budgets, permission gating, error recovery, tracing
+├── loop/                      # Loop engineering
+│   └── agentic_loop.py        # Generate → verify → refine with doneness contract
 ├── context/                   # Context management strategies
+│   ├── tools_call.py          # Dynamic tool selection via semantic search
+│   ├── offloading.py          # Scratchpad context offloading
+│   ├── compact.py             # Tool output summarization
+│   ├── pruning.py             # Selective context retention
+│   └── ltm.py                 # Long-term memories with semantic search
 ├── document/                  # Document processing pipeline
 │   ├── pdf2images.py         # PDF image extraction with vision analysis
 │   └── text_extract.py       # Text extraction using langextract
@@ -252,10 +294,6 @@ examples/
 │   ├── validators.py         # Guardrails integration
 │   ├── inputs.py             # Input validation utilities
 │   └── outputs.py            # Output validation utilities
-├── ltm/                       # Long-term memory implementations
-│   └── ltm.py                 # Long-term memories with semantic search
-├── http/                      # HTTP utilities
-│   └── responses.py           # Response formatting utilities
-└── a2a/                       # A2A protocol implementation
-    └── agents.py              # A2A conversational agents
+└── http/                      # HTTP utilities
+    └── responses.py           # Response formatting utilities
 ```
