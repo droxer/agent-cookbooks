@@ -100,23 +100,27 @@ def tool_node(state: ScratchpadState) -> dict:
         Dictionary with tool results and updated state
     """
     result = []
+    # Accumulate state updates across all tool calls in the batch so a
+    # scratchpad write is not lost when another tool call follows it.
+    update = {"messages": result}
     for tool_call in state["messages"][-1].tool_calls:
-        tool = tools_by_name[tool_call["name"]]
+        tool = tools_by_name.get(tool_call["name"])
+        if tool is None:
+            result.append(ToolMessage(content=f"Error: unknown tool '{tool_call['name']}'", tool_call_id=tool_call["id"]))
+            continue
         observation = tool.invoke(tool_call["args"])
         if tool_call["name"] == "WriteToScratchpad":
             # Save notes to scratchpad and update state
             notes = observation.notes
             result.append(ToolMessage(content=f"Wrote to scratchpad: {notes}", tool_call_id=tool_call["id"]))
-            update = {"messages": result, "scratchpad": notes}
+            update["scratchpad"] = notes
         elif tool_call["name"] == "ReadFromScratchpad":
             # Retrieve notes from scratchpad state
             notes = state.get("scratchpad", "")
             result.append(ToolMessage(content=f"Notes from scratchpad: {notes}", tool_call_id=tool_call["id"]))
-            update = {"messages": result}
         elif tool_call["name"] == "tavily_search":
             # Write search tool observation to messages
             result.append(ToolMessage(content=observation, tool_call_id=tool_call["id"]))
-            update = {"messages": result}
     return update
 
 def should_continue(state: ScratchpadState) -> Literal["tool_node", "__end__"]:
@@ -146,7 +150,7 @@ agent_builder.add_edge("tool_node", "llm_call")
 agent = agent_builder.compile()
 
 def main():
-    query = "Comparae the funding rounds and recent developments of Commonwealth Fusion Systems vs Helion Energy."
+    query = "Compare the funding rounds and recent developments of Commonwealth Fusion Systems vs Helion Energy."
     state = agent.invoke({"messages": [{"role": "user", "content": query}]})
     format_messages(state['messages'])
 

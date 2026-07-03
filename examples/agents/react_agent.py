@@ -75,12 +75,18 @@ TOOL_REGISTRY = {
     "web_search": web_search,
 }
 
+# Step budget: bound the ReAct loop so a model that never emits "Final:"
+# exits cleanly instead of hitting LangGraph's recursion error.
+MAX_STEPS = 8
+
+
 class AgentState(BaseModel):
     messages: List[str] = []
     tool_call: Optional[dict] = None
     observation: Optional[Any] = None
     tool_intent: Optional[str] = None
     tool_args: Optional[dict] = None
+    steps: int = 0
     done: bool = False
 
 
@@ -129,7 +135,8 @@ def tool_router(state: AgentState) -> AgentState:
     return AgentState(
         messages=state.messages + [f"[ROUTER RESULT] {res}"],
         tool_intent=tool_intent,
-        tool_args=tool_args
+        tool_args=tool_args,
+        steps=state.steps
     )
 
 REACT_PROMPT = """
@@ -153,13 +160,15 @@ def llm_thought(state: AgentState) -> AgentState:
     if "Final:" in out:
         return AgentState(
             messages=state.messages + [out],
+            steps=state.steps + 1,
             done=True
         )
 
     action = parse_action(out)
     return AgentState(
         messages=state.messages + [out],
-        tool_call=action
+        tool_call=action,
+        steps=state.steps + 1
     )
 
 def tool_executor(state: AgentState) -> AgentState:
@@ -179,7 +188,8 @@ def tool_executor(state: AgentState) -> AgentState:
 
     return AgentState(
         messages=state.messages + [f"Observation: {obs}"],
-        observation=obs
+        observation=obs,
+        steps=state.steps
     )
 
 graph = StateGraph(AgentState)
@@ -195,7 +205,7 @@ graph.add_edge("thought", "act")
 
 graph.add_conditional_edges(
     "act",
-    lambda s: "finish" if s.done else "loop",
+    lambda s: "finish" if s.done or s.steps >= MAX_STEPS else "loop",
     {"finish": END, "loop": "thought"}
 )
 
