@@ -33,7 +33,11 @@ This is a cookbook of agentic AI patterns. Each module in the examples directory
 - `python examples/agents/react_agent.py` - ReAct agent with tool routing and reasoning
 - `python examples/agents/llm_proxy.py` - Multi-provider LLM support using LiteLLM
 - `python examples/harness/agent_harness.py` - Agent harness with budgets, permission gating, error recovery, and tracing
+- `python examples/harness/durable_agent.py` - Durable (checkpointed) agent with human-in-the-loop interrupt/resume
 - `python examples/loop/agentic_loop.py` - Loop engineering with generate → verify → refine and a doneness contract
+- `python examples/agents/orchestrator_workers.py` - Parallel context-isolated sub-agents with bounded fan-out
+- `python examples/context/context_editing.py` - Clearing stale tool results on a token trigger (offline demo)
+- `python examples/evals/trajectory_eval.py` - Trajectory metrics plus LLM-as-judge grading
 - `python examples/context/tools_call.py` - Dynamic tool selection using semantic search
 - `python examples/context/offloading.py` - Context management with scratchpad
 - `python examples/context/compact.py` - Context compression with summarization
@@ -117,6 +121,24 @@ This is a cookbook of agentic AI patterns. Each module in the examples directory
     - Bounded revision budget with graceful exit to the best-scoring attempt
     - Verifier feedback routed into the next generation attempt; attempt history and stop reason recorded
 
+12. **Orchestrator-Worker Sub-Agents** (`examples/agents/orchestrator_workers.py`):
+    - Planner decomposes the task; workers run in parallel via LangGraph `Send`
+    - Bounded fan-out enforced in code; workers get fresh, isolated contexts
+    - Workers hand back compressed summaries, never raw transcripts
+
+13. **Durable Execution & Human-in-the-Loop** (`examples/harness/durable_agent.py`):
+    - Checkpointer persists state each superstep; runs resume by `thread_id` after restarts
+    - Sensitive tools pause with `interrupt()`; decisions arrive later via `Command(resume=...)`
+    - Denials become observations the model must respect
+
+14. **Context Editing** (`examples/context/context_editing.py`):
+    - Replaces stale tool results with a placeholder once a token trigger trips (no LLM call)
+    - Keeps the most recent N tool results and preserves tool_call_id pairing
+
+15. **Trajectory Evaluation** (`examples/evals/trajectory_eval.py`):
+    - Deterministic tool-sequence checks (order, redundancy, step budget) for CI
+    - LLM-as-judge rubric grading groundedness against the trajectory's tool evidence
+
 ### Tool System
 
 The `examples/tools/registry.py` module provides:
@@ -189,11 +211,13 @@ examples/
 │   ├── shared_memory_agents.py      # Shared memory agents with team/personal stores
 │   ├── react_agent.py               # ReAct pattern implementation
 │   ├── llm_proxy.py                 # Multi-provider LLM proxy
+│   ├── orchestrator_workers.py      # Parallel context-isolated sub-agents (Send API)
 │   ├── a2a_agents.py                # A2A JSON-RPC client example
 │   └── a2a/                         # A2A protocol implementation
 │       └── agents.py                # A2A conversational agents
 ├── harness/                   # Agent harness engineering
-│   └── agent_harness.py       # Budgets, permission gating, error recovery, tracing
+│   ├── agent_harness.py       # Budgets, permission gating, error recovery, tracing
+│   └── durable_agent.py       # Checkpointed runs with human-in-the-loop interrupts
 ├── loop/                      # Loop engineering
 │   └── agentic_loop.py        # Generate → verify → refine with doneness contract
 ├── context/                   # Context management strategies
@@ -201,6 +225,7 @@ examples/
 │   ├── offloading.py          # Scratchpad context offloading
 │   ├── compact.py             # Tool output summarization
 │   ├── pruning.py             # Selective context retention
+│   ├── context_editing.py     # Clearing stale tool results on a token trigger
 │   └── ltm.py                 # Long-term memories with semantic search
 ├── document/                  # Document processing pipeline
 │   ├── pdf2images.py         # PDF image extraction with vision analysis
@@ -220,7 +245,8 @@ examples/
 │   ├── registry.py           # Dynamic tool registry
 │   └── retriever_tool.py     # Blog post retriever
 ├── evals/                     # Evaluation implementations
-│   └── test_deepeval.py      # DeepEval integration
+│   ├── test_deepeval.py      # DeepEval integration
+│   └── trajectory_eval.py    # Trajectory metrics + LLM-as-judge
 ├── validation/                # Input/output validation
 │   ├── validators.py         # Guardrails integration
 │   ├── inputs.py             # Input validation utilities

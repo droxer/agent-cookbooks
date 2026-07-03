@@ -140,6 +140,24 @@ Generate → verify → refine (evaluator-optimizer) loop with an explicit donen
 contract, a bounded revision budget, feedback routing between iterations, and
 graceful degradation to the best attempt when the budget is exhausted
 
+### 24. Orchestrator-Worker Sub-Agents (`examples/agents/orchestrator_workers.py`)
+Parallel, context-isolated worker agents dispatched via LangGraph `Send`, with a
+bounded fan-out budget and compressed findings handoffs back to the orchestrator
+
+### 25. Durable Execution & Human-in-the-Loop (`examples/harness/durable_agent.py`)
+Checkpointed agent runs that survive restarts; sensitive tool calls pause with
+LangGraph `interrupt()` and resume from the checkpoint with a human decision
+
+### 26. Context Editing (`examples/context/context_editing.py`)
+Clearing stale tool results in place once a token trigger trips — the cheap,
+LLM-free complement to compaction and pruning (mirrors the Claude API's
+`clear_tool_uses` context editing)
+
+### 27. Trajectory Evaluation (`examples/evals/trajectory_eval.py`)
+Grading the agent's path, not just its answer: deterministic tool-sequence
+metrics (order, redundancy, step budget) plus an LLM-as-judge rubric that
+scores groundedness against the trajectory's tool evidence
+
 ## Architecture
 
 ### Core Components
@@ -211,6 +229,28 @@ graceful degradation to the best attempt when the budget is exhausted
     - Verifier feedback routed into the next generation attempt
     - Full attempt history and stop reason recorded for auditability
 
+12. **Orchestrator-Worker Sub-Agents** (`examples/agents/orchestrator_workers.py`):
+    - Planner decomposes the task; workers run in parallel via LangGraph `Send`
+    - Bounded fan-out enforced in code, not in the prompt
+    - Each worker gets a fresh, isolated context containing only its subtask
+    - Workers hand back compressed summaries, never raw transcripts
+
+13. **Durable Execution & Human-in-the-Loop** (`examples/harness/durable_agent.py`):
+    - Checkpointer persists state every superstep; runs resume by `thread_id` after a crash or restart
+    - Sensitive tools pause the run with `interrupt()`; the pause itself is checkpointed
+    - Human decisions arrive asynchronously via `Command(resume=...)` — no one needs to be at the keyboard
+    - Denials become observations the model must respect, not exceptions
+
+14. **Context Editing** (`examples/context/context_editing.py`):
+    - Replaces stale tool results with a placeholder once a token trigger trips
+    - Keeps the most recent N tool results intact and preserves tool_call_id pairing
+    - Pure string edit: no LLM call, unlike compaction/summarization
+
+15. **Trajectory Evaluation** (`examples/evals/trajectory_eval.py`):
+    - Deterministic layer for CI: required tools in order, no redundant calls, step budget
+    - LLM-as-judge layer for samples: groundedness and completeness graded against the tool evidence
+    - Catches right-answer-wrong-path failures that final-answer evals miss
+
 ### Tool System
 
 The `examples/tools/registry.py` module provides:
@@ -258,11 +298,13 @@ examples/
 │   ├── shared_memory_agents.py      # Shared memory agents with team/personal stores
 │   ├── react_agent.py               # ReAct pattern implementation
 │   ├── llm_proxy.py                 # Multi-provider LLM proxy
+│   ├── orchestrator_workers.py      # Parallel context-isolated sub-agents (Send API)
 │   ├── a2a_agents.py                # A2A JSON-RPC client example
 │   └── a2a/                         # A2A protocol implementation
 │       └── agents.py                # A2A conversational agents
 ├── harness/                   # Agent harness engineering
-│   └── agent_harness.py       # Budgets, permission gating, error recovery, tracing
+│   ├── agent_harness.py       # Budgets, permission gating, error recovery, tracing
+│   └── durable_agent.py       # Checkpointed runs with human-in-the-loop interrupts
 ├── loop/                      # Loop engineering
 │   └── agentic_loop.py        # Generate → verify → refine with doneness contract
 ├── context/                   # Context management strategies
@@ -270,6 +312,7 @@ examples/
 │   ├── offloading.py          # Scratchpad context offloading
 │   ├── compact.py             # Tool output summarization
 │   ├── pruning.py             # Selective context retention
+│   ├── context_editing.py     # Clearing stale tool results on a token trigger
 │   └── ltm.py                 # Long-term memories with semantic search
 ├── document/                  # Document processing pipeline
 │   ├── pdf2images.py         # PDF image extraction with vision analysis
@@ -289,7 +332,8 @@ examples/
 │   ├── registry.py           # Dynamic tool registry
 │   └── retriever_tool.py     # Blog post retriever
 ├── evals/                     # Evaluation implementations
-│   └── test_deepeval.py      # DeepEval integration
+│   ├── test_deepeval.py      # DeepEval integration
+│   └── trajectory_eval.py    # Trajectory metrics + LLM-as-judge
 ├── validation/                # Input/output validation
 │   ├── validators.py         # Guardrails integration
 │   ├── inputs.py             # Input validation utilities
