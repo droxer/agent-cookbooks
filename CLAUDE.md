@@ -38,6 +38,8 @@ This is a cookbook of agentic AI patterns. Each module in the examples directory
 - `python examples/agents/orchestrator_workers.py` - Parallel context-isolated sub-agents with bounded fan-out
 - `python examples/context/context_editing.py` - Clearing stale tool results on a token trigger (offline demo)
 - `python examples/evals/trajectory_eval.py` - Trajectory metrics plus LLM-as-judge grading
+- `python examples/tools/code_execution.py` - Progressive tool disclosure with code execution as the tool interface
+- `python examples/skills/skills_agent.py` - Folder-based agent skills loaded just-in-time
 - `python examples/context/tools_call.py` - Dynamic tool selection using semantic search
 - `python examples/context/offloading.py` - Context management with scratchpad
 - `python examples/context/compact.py` - Context compression with summarization
@@ -138,6 +140,16 @@ This is a cookbook of agentic AI patterns. Each module in the examples directory
 15. **Trajectory Evaluation** (`examples/evals/trajectory_eval.py`):
     - Deterministic tool-sequence checks (order, redundancy, step budget) for CI
     - LLM-as-judge rubric grading groundedness against the trajectory's tool evidence
+
+16. **Code Execution with Tools** (`examples/tools/code_execution.py`):
+    - Progressive disclosure: prompt carries tool names/one-liners; `search_tools` returns full signatures on demand
+    - `run_code` executes agent-written Python against the tool API; only printed output re-enters context
+    - Large intermediate datasets never flow through the context window
+
+17. **Agent Skills** (`examples/skills/skills_agent.py`):
+    - Skills are folders (`library/<name>/SKILL.md`): frontmatter metadata + markdown procedure
+    - Metadata-only at startup; full instructions loaded via `use_skill` when a task matches
+    - Expertise is added by dropping in a folder, with no code changes
 
 ### Tool System
 
@@ -243,7 +255,11 @@ examples/
 │   └── verify_vector_consistency.py # Vector normalization verification
 ├── tools/                     # Tool implementations
 │   ├── registry.py           # Dynamic tool registry
-│   └── retriever_tool.py     # Blog post retriever
+│   ├── retriever_tool.py     # Blog post retriever
+│   └── code_execution.py     # Progressive disclosure + run_code data flow
+├── skills/                    # Agent skills (progressive disclosure)
+│   ├── skills_agent.py        # Skill discovery, loading, and agent loop
+│   └── library/               # One folder per skill, each with SKILL.md
 ├── evals/                     # Evaluation implementations
 │   ├── test_deepeval.py      # DeepEval integration
 │   └── trajectory_eval.py    # Trajectory metrics + LLM-as-judge

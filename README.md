@@ -158,6 +158,16 @@ Grading the agent's path, not just its answer: deterministic tool-sequence
 metrics (order, redundancy, step budget) plus an LLM-as-judge rubric that
 scores groundedness against the trajectory's tool evidence
 
+### 28. Code Execution with Tools (`examples/tools/code_execution.py`)
+Progressive tool disclosure (`search_tools` pulls full signatures on demand)
+plus a `run_code` execution environment where the agent filters and joins
+large datasets in code — only printed results re-enter the context window
+
+### 29. Agent Skills (`examples/skills/skills_agent.py`)
+Folder-based expertise (`library/<name>/SKILL.md`) loaded with progressive
+disclosure: only frontmatter metadata enters the system prompt; the full
+procedure is fetched via `use_skill` when a task matches
+
 ## Architecture
 
 ### Core Components
@@ -251,6 +261,17 @@ scores groundedness against the trajectory's tool evidence
     - LLM-as-judge layer for samples: groundedness and completeness graded against the tool evidence
     - Catches right-answer-wrong-path failures that final-answer evals miss
 
+16. **Code Execution with Tools** (`examples/tools/code_execution.py`):
+    - System prompt lists tool names and one-liners only; `search_tools` discloses full signatures on demand
+    - The agent computes in code via `run_code`: large intermediate results stay in the execution environment
+    - Only printed output returns to the model, so context cost tracks the answer, not the data
+    - Sandboxed execution (stripped builtins, no imports) with the production caveat documented
+
+17. **Agent Skills** (`examples/skills/skills_agent.py`):
+    - Skills are folders (`library/<name>/SKILL.md`) with frontmatter metadata + markdown procedure
+    - Startup loads metadata only; `use_skill` loads the full instructions just-in-time
+    - Adding expertise means dropping in a folder — no code changes, writable by domain experts
+
 ### Tool System
 
 The `examples/tools/registry.py` module provides:
@@ -330,7 +351,11 @@ examples/
 │   └── verify_vector_consistency.py # Vector normalization verification
 ├── tools/                     # Tool implementations
 │   ├── registry.py           # Dynamic tool registry
-│   └── retriever_tool.py     # Blog post retriever
+│   ├── retriever_tool.py     # Blog post retriever
+│   └── code_execution.py     # Progressive disclosure + run_code data flow
+├── skills/                    # Agent skills (progressive disclosure)
+│   ├── skills_agent.py        # Skill discovery, loading, and agent loop
+│   └── library/               # One folder per skill, each with SKILL.md
 ├── evals/                     # Evaluation implementations
 │   ├── test_deepeval.py      # DeepEval integration
 │   └── trajectory_eval.py    # Trajectory metrics + LLM-as-judge
